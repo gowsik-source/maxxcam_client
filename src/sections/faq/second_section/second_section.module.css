@@ -1,0 +1,242 @@
+.master_container {
+    display: flex;
+    justify-content: center;
+}
+
+.parent_container {
+    width: 80%;
+    border: 2px solid var(--primary-color);
+    display: flex;
+    justify-content: center;
+    position: relative;
+    bottom: 4rem;
+}
+
+.container {
+    width: 90%;
+    margin: 5rem 0;
+}
+
+.container_for_heading_and_search_bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.frequently_heading {
+    color: var(--primary-color);
+    font-size: 2.3rem;
+    width: 60%;
+}
+
+.search_bar {
+    width: 30%;
+}
+
+.search_bar input {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-color: var(--primary-color);
+    outline: none;
+    width: 90%;
+    position: relative;
+    padding: 0 1rem 0.5rem 0;
+}
+
+.search_bar input[type="text"] {
+    font-size: 1rem;
+}
+
+.search_bar input:hover {
+    border-color: rgb(222, 145, 4);
+}
+
+.search_bar input::selection,
+.search_bar input::-moz-selection {
+    background-color: rgb(169, 169, 169);
+}
+
+.search_icon {
+    position: absolute;
+    right: 4rem;
+}
+
+.container_for_faq_nav {
+    width: 100%;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 16%;
+    gap: 0.5rem;
+    overflow-x: auto;
+    place-items: center;
+}
+
+.faq_nav_item_active {
+    color: var(--primary-color);
+}
+
+.hr_line_for_nav_topic {
+    visibility: visible;
+}
+
+.hr_line_for_nav_topic_hidden {
+    visibility: hidden;
+}
+
+.hr_line_for_nav_topic hr {
+    border: unset;
+    border: 2px solid var(--primary-color);
+    border-radius: 5px;
+}
+
+.container_for_faq_questions {
+    border: 2px solid var(--secondary-color);
+}
+
+.faq_question_container {
+    width: 100%;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.faq_arrow_icon_open {
+    transform: rotate(180deg);
+}
+
+.faq_arrow_icon_closed svg,
+.faq_arrow_icon_open svg {
+    font-size: 2rem;
+}
+
+.container_for_search_input_value {
+    display: flex;
+    gap: 0.2rem;
+}
+
+.search_input_value {
+    font-weight: bold;
+}
+
+.parent_faq_answer_icon_container {
+    display: flex;
+    justify-content: center;
+}
+
+.faq_answer_icon_container {
+    width: 95%;
+}
+
+.faq_section_icon_container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    margin: 1rem 0;
+}
+
+/* tooltip styles */
+.social_media_icon {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.tooltip_name {
+    visibility: hidden;
+    background-color: var(--secondary-color);
+    color: white;
+    text-align: center;
+    padding: 6px 10px;
+    border-radius: 4px;
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    z-index: 1;
+    font-size: 0.8rem;
+}
+
+.social_media_icon:hover .tooltip_name {
+    visibility: visible;
+}
+
+.tooltip_name::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--secondary-color) transparent transparent transparent;
+}
+
+/* social media icon color & change color when hover */
+.social_media_icon a,
+.social_media_icon button {
+    color: var(--secondary-color);
+}
+
+.social_media_icon a:hover,
+.social_media_icon button:hover {
+    color: rgb(131, 131, 131);
+}
+
+/* style for LinkCopied component */
+.copy_link_container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    bottom: 2rem;
+    z-index: 1000;
+    visibility: visible;
+    pointer-events: none;
+    cursor: default;
+}
+
+@media (max-width: 768px) {
+    .parent_container {
+        position: static;
+        margin: 2rem 0;
+        width: 90%;
+    }
+
+    .container_for_heading_and_search_bar {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .frequently_heading,
+    .search_bar {
+        width: 100%;
+    }
+
+    .container_for_faq_nav {
+        grid-auto-columns: 25%;
+    }
+
+    .search_bar input {
+        width: 100%;
+    }
+}
+
+/* general styles */
+.child_container div,
+.hr_line_for_nav_topic {
+    margin-top: 0.5rem;
+}
+
+.container_for_faq_questions,
+.container_for_empty_message {
+    margin-top: 1rem;
+}
+
+.parent_faq_answer_icon_container_hidden,
+.container_for_faq_nav_hidden,
+.copy_link_container_hidden {
+    display: none;
+}

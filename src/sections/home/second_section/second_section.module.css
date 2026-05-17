@@ -1,0 +1,121 @@
+.container{
+    width: 90%;
+}
+
+.parent_container{
+    display: flex;
+    margin-top: 2rem;
+    flex-direction: column;
+    align-items: center;
+}
+
+.box_container{
+    display: flex;
+    justify-content: space-between;
+    height: 10rem;
+}
+
+.left_box_container{
+    width: 37%;
+    background-image: url('../../../assets/section_2_image_1.jpg');
+    background-position: center;
+    background-size: cover;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    text-align: center;
+}
+
+.right_box_container{
+    width: 60%;
+    background-color: var(--primary-color);
+    padding: 1rem;
+}
+
+.highlighted_text{
+    font-size: 1.2rem;
+    text-wrap-mode: nowrap;
+    color: white;
+}
+
+.normal_text{
+    color: white;
+    font-size: x-large;
+}
+
+.border{
+    border: 2px solid white;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    gap: 2rem;
+}
+
+.right_box_image{
+    width: 32%;
+    position: relative;
+    bottom: 3rem;
+}
+
+.right_box_image img{
+    width: 100%;
+}
+
+.right_box_text_container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    align-items: center;
+}
+
+.right_box_normal_text{
+    font-size: x-large;
+}
+
+.right_box_highlighted_text{
+    font-size: x-large;
+    color: white;
+}
+
+.second_container{
+    background-color: var(--secondary-color);
+    width: 90%;
+    color: white;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+    font-size: 1.5rem;
+}
+
+.second_container p span{
+    color: var(--primary-color);
+}
+
+@media (max-width:768px) {
+    .box_container {
+        flex-direction: column;
+        gap: 1rem;
+        height: auto;
+    }
+
+    .left_box_container,
+    .right_box_container {
+        width: 100%;
+    }
+
+    .right_box_image {
+        bottom: -1rem;
+    }
+
+    .second_container_text {
+        font-size: 1rem;
+    }
+}

@@ -1,0 +1,26 @@
+.parent_container{
+    margin: 2rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+.container{
+    width: 90%;
+}
+
+.divider{
+    border-color: var(--primary-color);
+}
+.brand{
+    width: 70%;
+}
+.brand img{
+    width: 100%;
+    height: auto;
+}
+
+.brand_container{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    place-items: center;
+}

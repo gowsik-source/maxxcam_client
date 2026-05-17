@@ -1,0 +1,6 @@
+.display{
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.7rem 3rem;
+    border-radius: 50px;
+}
