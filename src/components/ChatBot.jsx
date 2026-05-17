@@ -47,7 +47,7 @@ const ChatBot = () => {
           <div className={style.chat_header_display}>
             <div className={style.profile_picture_and_name_status_container}>
               <div className={style.chat_profile_photo}>
-                <img src={Logo} alt="profile photo" />
+                <img src={Logo} alt="profile" />
                 <span className={style.status_indicator_dot}></span>
               </div>
               <div className={style.chatbot_name_and_status_container}>
