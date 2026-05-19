@@ -79,17 +79,11 @@
 }
 
 .quickview_container button {
-    color: black;
+    color: var(--secondary-color);
 }
 
 .add_to_cart {
     visibility: hidden;
-}
-
-.add_to_cart,
-.product_price,
-.product_name {
-    margin-top: 0.5rem;
 }
 
 .overlay_for_quick_view_component {
@@ -121,4 +115,12 @@
     .product_name_long {
         width: 20rem;
     }
+}
+
+/* general styles */
+
+.add_to_cart,
+.product_price,
+.product_name {
+    margin-top: 0.5rem;
 }

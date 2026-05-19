@@ -41,6 +41,9 @@ const ThirdSection = () => {
     slidesToScroll: 1,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
+    mobileFirst: false,
+    adaptiveHeight: true,
+    variableWidth: false,
     responsive: [
       {
         breakpoint: 768,
