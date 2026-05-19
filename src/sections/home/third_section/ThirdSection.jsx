@@ -30,7 +30,7 @@ const ThirdSection = () => {
       }
     }
     getProducts();
-  },[]);
+  }, []);
   // const categoryFilter = data.filter(products => (products.category === 'digital_cameras'))
 
   const sliderFunction = {
@@ -80,24 +80,26 @@ const ThirdSection = () => {
           <Slider {...sliderFunction}>
             {isCategoryFilteredProducts.map((products, index) => (
               <div key={index} className={style.child_container}>
-                <div className={style.parent_image_container}>
-                  <div className={style.image_container}>
-                    <Link to={`/product/${products._id}`}>
-                      <img src={products.images[0]} alt={products.productName} />
-                    </Link>
+                <div className={style.product_card}>
+                  <div className={style.parent_image_container}>
+                    <div className={style.image_container}>
+                      <Link to={`/product/${products._id}`}>
+                        <img src={products.images[0]} alt={products.productName} />
+                      </Link>
+                    </div>
+                    <div className={style.quickview_container}>
+                      <button className='default_btn' onClick={() => quickViewHandler(products)}>Quick View</button>
+                    </div>
                   </div>
-                  <div className={style.quickview_container}>
-                    <button className='default_btn' onClick={() => quickViewHandler(products)}>Quick View</button>
+                  <div className={style.product_name}>
+                    <Link to={`/product/${products._id}`} className={products.productName.length > 20 ? style.product_name_long : style.product_name_short}>{products.productName}</Link>
                   </div>
-                </div>
-                <div className={style.product_name}>
-                  <Link to={`/product/${products._id}`} className={products.productName.length > 20 ? style.product_name_long : style.product_name_short}>{products.productName}</Link>
-                </div>
-                <div className={style.product_price}>
-                  <p>₨: {products.price}</p>
-                </div>
-                <div className={style.add_to_cart}>
-                  <CartButton name='Add to Cart' click={() => addToCart(products)} />
+                  <div className={style.product_price}>
+                    <p>₨: {products.price}</p>
+                  </div>
+                  <div className={style.add_to_cart}>
+                    <CartButton name='Add to Cart' click={() => addToCart(products)} />
+                  </div>
                 </div>
               </div>
             ))}

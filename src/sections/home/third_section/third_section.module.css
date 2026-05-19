@@ -11,6 +11,13 @@
 
 .child_container {
     padding: 0 1rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.product_card {
+  width: 100%;
+  min-width: 0;
 }
 
 .child_container:hover {
@@ -123,4 +130,16 @@
 .product_price,
 .product_name {
     margin-top: 0.5rem;
+}
+
+.slick-slide > div {
+  width: 100%;
+}
+
+.slick-track {
+  display: flex !important;
+}
+
+.slick-slide {
+  height: auto;
 }
