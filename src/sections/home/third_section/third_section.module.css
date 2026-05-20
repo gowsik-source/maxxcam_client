@@ -132,14 +132,15 @@
     margin-top: 0.5rem;
 }
 
-:global(.slick-slide) > :global(div) {
-  width: 100%;
+:global(.slick-slide) {
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+:global(.slick-list) {
+  overflow: hidden;
 }
 
 :global(.slick-track) {
-  display: flex !important;
-}
-
-:global(.slick-slide) {
-  height: auto;
+  display: flex;
 }
