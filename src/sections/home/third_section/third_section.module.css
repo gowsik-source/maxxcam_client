@@ -144,6 +144,6 @@
   overflow: hidden;
 }
 
-:global(.slick-track) {
-  display: flex;
+:global(.slick-slide > div) {
+  width: 100%;
 }
