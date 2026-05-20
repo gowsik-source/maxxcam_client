@@ -72,7 +72,7 @@ const ThirdSection = () => {
       <div className={style.parent_container}>
         <div className={style.container}>
           <Slider {...sliderFunction}>
-            {isCategoryFilteredProducts.map((products, index) => (
+            {isCategoryFilteredProducts.length > 0 && isCategoryFilteredProducts.map((products, index) => (
               <div key={index} className={style.child_container}>
                 <div className={style.product_card}>
                   <div className={style.parent_image_container}>
