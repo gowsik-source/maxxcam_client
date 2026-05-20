@@ -66,7 +66,7 @@ const ThirdSection = () => {
 
   return (
     <div>
-      <div className={`section_heading ${style.section_heading_modification}`}>
+      {/* <div className={`section_heading ${style.section_heading_modification}`}>
         <h1>Digital Cameras</h1>
       </div>
       <div className={style.parent_container}>
@@ -99,7 +99,38 @@ const ThirdSection = () => {
             ))}
           </Slider>
         </div>
+      </div> */}
+
+      <div className={style.parent_container}>
+  <div className={style.container}>
+
+    <Slider
+      dots={true}
+      infinite={true}
+      speed={500}
+      slidesToShow={1}
+      slidesToScroll={1}
+    >
+      <div>
+        <img
+          src="https://picsum.photos/300/300"
+          alt=""
+          style={{ width: "100%" }}
+        />
       </div>
+
+      <div>
+        <img
+          src="https://picsum.photos/300/301"
+          alt=""
+          style={{ width: "100%" }}
+        />
+      </div>
+    </Slider>
+
+  </div>
+</div>
+
       {/* quick view component */}
       {selectedProducts &&
         <div className={style.overlay_for_quick_view_component} onClick={removeQuickViewProductHandler}>
