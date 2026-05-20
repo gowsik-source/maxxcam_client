@@ -67,7 +67,8 @@
 }
 
 .product_name_short {
-    width: fit-content;
+    /* width: fit-content; */
+    display: inline-block;
 }
 
 .quickview_container {
@@ -120,7 +121,9 @@
     }
 
     .product_name_long {
-        width: 20rem;
+        /* width: 20rem; */
+        border: 1px solid red;
+        max-width: 100%;
     }
 }
 
