@@ -132,14 +132,14 @@
     margin-top: 0.5rem;
 }
 
-.slick-slide > div {
+:global(.slick-slide) > :global(div) {
   width: 100%;
 }
 
-.slick-track {
+:global(.slick-track) {
   display: flex !important;
 }
 
-.slick-slide {
+:global(.slick-slide) {
   height: auto;
 }
