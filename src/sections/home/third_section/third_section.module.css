@@ -121,9 +121,7 @@
     }
 
     .product_name_long {
-        /* width: 20rem; */
-        border: 1px solid red;
-        max-width: 100%;
+        width: 20rem;
     }
 }
 
