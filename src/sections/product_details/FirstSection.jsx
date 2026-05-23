@@ -47,7 +47,7 @@ const ProductDetails = () => {
     }
   ]
 
-  const { category, id } = useParams(); // to get the (id) from url
+  const { category, _id } = useParams(); // to get the (id) from url
   // console.log(id, 'id from params')
   const [productDetails, setProductDetails] = useState(null); // to store the details of the product which user clicked on
   const [isPageRouteCategory, setIsPageRouteCategory] = useState('');
@@ -81,7 +81,7 @@ const ProductDetails = () => {
   useEffect(() => {
     const getProductDetails = async () => {
       try {
-        const response = await Axios.get(`/api/product/${id}`);
+        const response = await Axios.get(`/api/product/${_id}`);
         console.log(response.data.data, 'response data');
         const apiFetchedProducts = response.data.data;
         setProductDetails(apiFetchedProducts);
@@ -90,7 +90,7 @@ const ProductDetails = () => {
       }
     }
     getProductDetails();
-  }, [id]);
+  }, [_id]);
 
   const slidesToShowLogic = Math.min(productDetails?.images?.length || 0, 5); // Math.min((userClickedProduct?.images?.length = 2),4) → 2 Or Math.min(userClickedProduct?.images?.length = 6),4) → 4
   const settings = {

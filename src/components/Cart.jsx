@@ -55,7 +55,7 @@ const Cart = () => {
                                         </div>
                                         <div className={style.quantity_container}>
                                             <div>
-                                                <button className={`default_btn ${item.quantity === 1 ? style.minus_disabled : ''}`} onClick={() => decreaseQuantity(item.id)} >
+                                                <button className={`default_btn ${item.quantity === 1 ? style.minus_disabled : ''}`} onClick={() => decreaseQuantity(item._id)} >
                                                     <FaMinus />
                                                 </button>
                                             </div>
@@ -63,7 +63,7 @@ const Cart = () => {
                                                 <p>{item.quantity}</p>
                                             </div>
                                             <div>
-                                                <button className={"default_btn"} onClick={() => increaseQuantity(item.id)}>
+                                                <button className={"default_btn"} onClick={() => increaseQuantity(item._id)}>
                                                     <IoMdAdd />
                                                 </button>
                                             </div>
@@ -71,7 +71,7 @@ const Cart = () => {
                                     </div>
                                     <div className={style.delete_icon_container}>
                                         <div>
-                                            <button className='default_btn' onClick={() => removeFromCart(item.id)}>
+                                            <button className='default_btn' onClick={() => removeFromCart(item._id)}>
                                                 <RiDeleteBinLine />
                                             </button>
                                         </div>

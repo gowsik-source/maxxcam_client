@@ -24,13 +24,17 @@ export const CartProvider = ({ children }) => {
 
   const cartIsEmpty = cartItems.length === 0;
 
+  // useEffect(() => {
+  //   isCartOpen ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'auto';
+  // },[isCartOpen]);
+
   // add products to cart
   const addToCart = (products) => {
     setCartItems(prev => {
-      const existingProduct = prev.find(item => item.id === products.id);
+      const existingProduct = prev.find(item => item._id === products._id);
 
       if (existingProduct) {
-        return prev.map(item => item.id === products.id ? { ...item, quantity: item.quantity + 1 } : item);
+        return prev.map(item => item._id === products._id ? { ...item, quantity: item.quantity + 1 } : item);
       }
       return [...prev, { ...products, quantity: 1 }];
     });
@@ -41,11 +45,11 @@ export const CartProvider = ({ children }) => {
   // add products to cart function for quick view component
   const addToCartFromQuickViewHandler = (products, closeQuickViewAfterAddToCart) => {
     setCartItems(prev => {
-      const existingProduct = prev.find(item => item.id === products.id);
+      const existingProduct = prev.find(item => item._id === products._id);
 
       if (existingProduct) {
         return prev.map(item =>
-          item.id === products.id ? { ...item, quantity: item.quantity + products.quantity } : item
+          item.id === products._id ? { ...item, quantity: item.quantity + products.quantity } : item
         );
       }
 
@@ -59,11 +63,11 @@ export const CartProvider = ({ children }) => {
   // add products to cart function for product details page
   const addToCartFromProductDetailsPageHandler = (userClickedProduct, quantity) => {
     setCartItems(prev => {
-      const existingProduct = prev.find(item => item.id === userClickedProduct.id);
+      const existingProduct = prev.find(item => item._id === userClickedProduct._id);
 
       if (existingProduct) {
         return prev.map(item =>
-          item.id === userClickedProduct.id ? { ...item, quantity: item.quantity + quantity } : item
+          item._id === userClickedProduct._id ? { ...item, quantity: item.quantity + quantity } : item
         );
       }
 
@@ -74,18 +78,18 @@ export const CartProvider = ({ children }) => {
   };
 
   // delete cart items
-  const removeFromCart = (id) => {
-    setCartItems(prev => prev.filter(item => item.id !== id));
+  const removeFromCart = (_id) => {
+    setCartItems(prev => prev.filter(item => item._id !== _id));
   };
 
   // increase number of Quantity
-  const increaseQuantity = (id) => {
-    setCartItems(prev => prev.map(items => items.id === id ? { ...items, quantity: items.quantity + 1 } : items))
+  const increaseQuantity = (_id) => {
+    setCartItems(prev => prev.map(items => items._id === _id ? { ...items, quantity: items.quantity + 1 } : items))
   };
 
   // decrease number of Quantity
-  const decreaseQuantity = (id) => {
-    setCartItems(prev => prev.map(items => items.id === id && items.quantity > 1 ? { ...items, quantity: items.quantity - 1 } : items))
+  const decreaseQuantity = (_id) => {
+    setCartItems(prev => prev.map(items => items._id === _id && items.quantity > 1 ? { ...items, quantity: items.quantity - 1 } : items))
   };
 
   // const decreaseQuantity = (id) => {

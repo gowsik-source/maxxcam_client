@@ -416,6 +416,10 @@
         gap: 0.3rem;
     }
 
+    .container_for_maped_items {
+        grid-template-columns: 100%;
+    }
+
     .image_container:hover {
         img {
             transform: scale(1);
@@ -427,7 +431,7 @@
     }
 
     .product_name_long {
-        width: 6rem;
+        width: 95%;
     }
 
     .add_to_cart {

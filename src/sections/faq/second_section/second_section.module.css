@@ -222,6 +222,10 @@
     .search_bar input {
         width: 100%;
     }
+
+    .search_icon {
+        right: 2.5rem;
+    }
 }
 
 /* general styles */

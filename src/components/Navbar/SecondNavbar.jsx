@@ -40,16 +40,16 @@ const SecondNavbar = () => {
                 </div>
             </div>
             {/* navbar for mobile */}
-            {isMobileMenuOpen && <div className={style.mobile_menu_nav_overlay} onClick={(e) => { e.stopPropagation(); hideMobileNavBarHandler(); }}></div>}
+            {isMobileMenuOpen && <div className={style.mobile_menu_nav_overlay} onClick={(e) => e.stopPropagation() }></div>}
             <div className={isMobileMenuOpen ? style.mobile_menu_nav_container_open : style.mobile_menu_nav_container_closed} onClick={(e) => e.stopPropagation()}>
                 <div className={isMobileMenuOpen ? style.mobile_menu_nav_close_visible : style.mobile_menu_nav_close_hidden}>
                     <button className='default_btn' onClick={hideMobileNavBarHandler}><RiCloseLargeLine /></button>
                 </div>
                 <ul className={style.mobile_menu_nav}>
-                    <li onClick={hideMobileNavBarHandler}><NavLink to="/" className={({ isActive }) => (isActive ? style.mobile_nav_active : style.mobile_nav_inactive)}>Home</NavLink></li>
-                    <li onClick={hideMobileNavBarHandler}><NavLink to="/shop" className={({ isActive }) => (isActive ? style.mobile_nav_active : style.mobile_nav_inactive)}>Shop</NavLink></li>
-                    <li onClick={hideMobileNavBarHandler}><NavLink to="/faq" className={({ isActive }) => (isActive ? style.mobile_nav_active : style.mobile_nav_inactive)}>Faq</NavLink></li>
-                    <li onClick={hideMobileNavBarHandler}><NavLink to="/contact" className={({ isActive }) => (isActive ? style.mobile_nav_active : style.mobile_nav_inactive)}>Contact</NavLink></li>
+                    <li><NavLink to="/" className={({ isActive }) => (isActive ? style.mobile_nav_active : style.mobile_nav_inactive)} onClick={hideMobileNavBarHandler}>Home</NavLink></li>
+                    <li><NavLink to="/shop" className={({ isActive }) => (isActive ? style.mobile_nav_active : style.mobile_nav_inactive)} onClick={hideMobileNavBarHandler}>Shop</NavLink></li>
+                    <li><NavLink to="/faq" className={({ isActive }) => (isActive ? style.mobile_nav_active : style.mobile_nav_inactive)} onClick={hideMobileNavBarHandler}>Faq</NavLink></li>
+                    <li><NavLink to="/contact" className={({ isActive }) => (isActive ? style.mobile_nav_active : style.mobile_nav_inactive)} onClick={hideMobileNavBarHandler}>Contact</NavLink></li>
                 </ul>
             </div>
         </div>

@@ -25,8 +25,8 @@ const Routing = () => {
                 <Route path="/faq" element={<Faq />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/view_cart" element={<MyCart />} />
-                <Route path="/product/:id" element={<ProductDetails />} />
-                <Route path="/category/:category/product/:id" element={<ProductDetails />} />
+                <Route path="/product/:_id" element={<ProductDetails />} />
+                <Route path="/category/:category/product/:_id" element={<ProductDetails />} />
                 <Route path="/login" element={<LogIn />} />
                 <Route path="/forgot_password" element={<ForgotPassword />} />
                 <Route path="/register" element={<Register />} />
