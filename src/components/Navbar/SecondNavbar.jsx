@@ -40,7 +40,7 @@ const SecondNavbar = () => {
                 </div>
             </div>
             {/* navbar for mobile */}
-            {isMobileMenuOpen && <div className={style.mobile_menu_nav_overlay} onClick={(e) => e.stopPropagation() }></div>}
+            {isMobileMenuOpen && <div className={style.mobile_menu_nav_overlay} onClick={(e) => { e.stopPropagation(); hideMobileNavBarHandler(); }}></div>}
             <div className={isMobileMenuOpen ? style.mobile_menu_nav_container_open : style.mobile_menu_nav_container_closed} onClick={(e) => e.stopPropagation()}>
                 <div className={isMobileMenuOpen ? style.mobile_menu_nav_close_visible : style.mobile_menu_nav_close_hidden}>
                     <button className='default_btn' onClick={hideMobileNavBarHandler}><RiCloseLargeLine /></button>
