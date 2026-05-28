@@ -137,11 +137,15 @@ const Register = () => {
 
   // to handle password visibility toggle
   const passwordVisibilityToggle = () => {
-    const cursorPosition = passwordRef.current.selectionStart;
+    const input = passwordRef.current
+    const cursorPosition = input.selectionStart;
     setIsShowPassword((prev) => !prev);
-    setTimeout(() => {
-      passwordRef.current.setSelectionRange(cursorPosition, cursorPosition);
-    },0)
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        input.focus();
+        input.setSelectionRange(cursorPosition, cursorPosition);
+      })
+    })
   }
 
   // to handle confirm password visibility toggle
