@@ -109,12 +109,10 @@
         padding: 10px 0 10px clamp(1rem, 1vw, 1rem);
         background-color: var(--primary-color);
         display: flex;
-        font-weight: bold;
     }
     
     .mobile_nav_inactive {
         padding: 10px 0 10px clamp(1rem, 1vw, 1rem);
         display: flex;
-        font-weight: bold;
     }
 }

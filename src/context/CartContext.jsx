@@ -24,9 +24,14 @@ export const CartProvider = ({ children }) => {
 
   const cartIsEmpty = cartItems.length === 0;
 
-  // useEffect(() => {
-  //   isCartOpen ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'auto';
-  // },[isCartOpen]);
+  // enable or disable body scroll based on cart visibility
+  useEffect(() => {
+    isCartOpen ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'auto';
+    
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isCartOpen]);
 
   // add products to cart
   const addToCart = (products) => {
@@ -153,8 +158,15 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const openCart = () => setIsCartOpen(true);
-  const closeCart = () => setIsCartOpen(false);
+  // to open cart
+  const openCart = () => {
+    setIsCartOpen(true);
+  };
+
+  // to close cart
+  const closeCart = () => {
+    setIsCartOpen(false);
+  };
 
   return (
     <CartContext.Provider

@@ -1,16 +1,32 @@
 import React, { useState } from 'react'
 import style from './login.module.css'
-import axios from 'axios'
+import Axios from '../../API/Axios'
 // import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { MdErrorOutline } from "react-icons/md"
+import { ToastContainer, toast, Bounce } from 'react-toastify'
 
 const LogIn = () => {
 
     // const navigation = useNavigate();
-    const [isEmail, setIsEmail] = useState('')
-    const [isPassword, setIsPassword] = useState('')
-    const [isError, setIsError] = useState({})
+    const [isEmail, setIsEmail] = useState('');
+    const [isPassword, setIsPassword] = useState('');
+    const [isError, setIsError] = useState({});
+    const [loading, setLoading] = useState(false);
+
+    // toastify configuration
+    const tostifySetup = {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        closeButton: false,
+    };
 
     const formValidation = () => {
         const localError = {}
@@ -32,13 +48,43 @@ const LogIn = () => {
         event.preventDefault();
         if (formValidation()) {
             try {
-                const response = await axios.post('https://jsonplaceholder.typicode.com/posts', { isEmail, isPassword })
-                console.log(response);
+                setLoading(true);
+                const payLoad = {
+                    email: isEmail,
+                    password: isPassword
+                }
+                const response = await Axios.post('/api/user/login', payLoad);
+                // console.log(response);
+                const tryMessage = response.data.message;
+                if (response.status === 200) {
+                    toast.success(tryMessage, tostifySetup);
+                }
             } catch (error) {
-                console.log('API error or network error')
+                // console.log(error ? error.message : 'Something went wrong');
+                const catchMessage = error.response.data.message;
+                const catchStatusCode = error.response.status;
+
+                if (catchStatusCode === 404) {
+                    toast.error(catchMessage, tostifySetup);
+                }
+                else if (catchStatusCode === 400) {
+                    toast.warning(catchMessage, tostifySetup);
+                }
+                else if (catchStatusCode === 401) {
+                    toast.warning(catchMessage, tostifySetup);
+                }
+                else if (catchStatusCode === 500) {
+                    toast.error(catchMessage, tostifySetup);
+                }
+                else {
+                    toast.error('Something went wrong. Please try again later.', tostifySetup);
+                }
+            } finally {
+                setLoading(false);
             }
         }
     }
+
     return (
         <div>
             <div className={style.container}>
@@ -48,7 +94,7 @@ const LogIn = () => {
                     </div>
                     <form onSubmit={loginAction}>
                         <div className={style.email_input}>
-                            <input type="email" className={`default_input_style ${isError.email ? style.input_validation_error : ''}`} placeholder='Email *' value={isEmail} onChange={(e) => setIsEmail(e.target.value)} autoFocus/>
+                            <input type="email" className={`default_input_style ${isError.email ? style.input_validation_error : ''}`} placeholder='Email *' value={isEmail} onChange={(e) => setIsEmail(e.target.value)} autoFocus />
                         </div>
                         {isError.email && <div className={style.error_message_container}>
                             <div className={style.error_icon}>
@@ -73,7 +119,7 @@ const LogIn = () => {
                             <Link to='/forgot_password'>Forgot password?</Link>
                         </div>
                         <div className={style.login_button}>
-                            <button type='submit' className={style.log_in_btn}>Log In</button>
+                            <button type='submit' className={ loading ? style.log_in_btn_disbled : style.log_in_btn} disabled={loading}>{loading ? 'Logging...' : 'Log In'}</button>
                         </div>
                     </form>
                     <div className={style.not_a_member_section}>
@@ -82,6 +128,7 @@ const LogIn = () => {
                             <Link to='/register'>Register</Link>
                         </span>
                     </div>
+                    <ToastContainer />
                 </div>
             </div>
         </div>

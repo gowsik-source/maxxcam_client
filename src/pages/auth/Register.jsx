@@ -1,24 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import style from './register.module.css'
 import axios from 'axios'
+
+// icons
 import { MdErrorOutline } from "react-icons/md"
-import { IoEye } from "react-icons/io5";
-import { IoEyeOff } from "react-icons/io5";
+import { IoEye, IoEyeOff } from "react-icons/io5";
 const Register = () => {
 
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    contactNo: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  });
+  const [formData, setFormData] = useState(
+    {
+      firstName: '',
+      lastName: '',
+      contactNo: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    }
+  ); // to store form data
   const [isError, setIsError] = useState({}); // to store validation error
   const [isShowPassword, setIsShowPassword] = useState(false); // to toggle password visibility
   const [isFocused, setIsFocused] = useState(false); // to focus password field
   const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false); // to toggle password visibility
   const [isConfirmPasswordFocused, setIsConfirmPasswordFocused] = useState(false); // to toggle Confirm password visibility
+  const passwordRef = useRef(null); // to focus confirm password field
 
   const validationHandler = (name, value) => {
     let localError = '';
@@ -103,14 +107,26 @@ const Register = () => {
     const emailError = validationHandler('email', formData.email);
     const passwordError = validationHandler('password', formData.password);
     const confirmPasswordError = validationHandler('confirmPassword', formData.confirmPassword);
-    console.log(firstNameError, lastNameError, contactNoError, emailError, passwordError, confirmPasswordError);
+    if (firstNameError || lastNameError || contactNoError || emailError || passwordError || confirmPasswordError) {
+      setIsError(
+        {
+          firstName: firstNameError,
+          lastName: lastNameError,
+          contactNo: contactNoError,
+          email: emailError,
+          password: passwordError,
+          confirmPassword: confirmPasswordError
+        }
+      );
+      return;
+    }
     try {
       const apiFormData = {
-        firstName : formData.firstName,
-        lastName : formData.lastName,
-        contactNo : formData.contactNo,
-        email : formData.email,
-        password : formData.password
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        contactNo: formData.contactNo,
+        email: formData.email,
+        password: formData.password
       }
       const response = await axios.post('https://jsonplaceholder.typicode.com/posts', apiFormData);
       console.log(response);
@@ -120,9 +136,12 @@ const Register = () => {
   }
 
   // to handle password visibility toggle
-  const passwordVisibilityToggle = (event) => {
-    event.preventDefault();
+  const passwordVisibilityToggle = () => {
+    const cursorPosition = passwordRef.current.selectionStart;
     setIsShowPassword((prev) => !prev);
+    setTimeout(() => {
+      passwordRef.current.setSelectionRange(cursorPosition, cursorPosition);
+    },0)
   }
 
   // to handle confirm password visibility toggle
@@ -189,9 +208,9 @@ const Register = () => {
             </div>}
             {/* password */}
             <div className={style.password_input}>
-              <input type={isShowPassword ? "text" : "password"} className={`default_input_style ${isError.password ? style.input_validation_error : ''}`} placeholder='Password *' name="password" value={formData.password} onChange={changeHandler} onFocus={() => setIsFocused(true)} onBlur={() => setIsFocused(false)} />
+              <input type={isShowPassword ? "text" : "password"} className={`default_input_style ${isError.password ? style.input_validation_error : ''}`} placeholder='Password *' name="password" value={formData.password} onChange={changeHandler} onFocus={() => setIsFocused(true)} onBlur={() => setIsFocused(false)} ref={passwordRef} />
               {isFocused && (
-                <span onMouseDown={passwordVisibilityToggle}>
+                <span onClick={passwordVisibilityToggle}>
                   {isShowPassword ? <IoEye /> : <IoEyeOff />}
                 </span>
               )}
