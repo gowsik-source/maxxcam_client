@@ -136,16 +136,9 @@ const Register = () => {
   }
 
   // to handle password visibility toggle
-  const passwordVisibilityToggle = () => {
-    const input = passwordRef.current
-    const cursorPosition = input.selectionStart;
+  const passwordVisibilityToggle = (event) => {
+    event.preventDefault();
     setIsShowPassword((prev) => !prev);
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        input.focus();
-        input.setSelectionRange(cursorPosition, cursorPosition);
-      })
-    })
   }
 
   // to handle confirm password visibility toggle
@@ -214,7 +207,7 @@ const Register = () => {
             <div className={style.password_input}>
               <input type={isShowPassword ? "text" : "password"} className={`default_input_style ${isError.password ? style.input_validation_error : ''}`} placeholder='Password *' name="password" value={formData.password} onChange={changeHandler} onFocus={() => setIsFocused(true)} onBlur={() => setIsFocused(false)} ref={passwordRef} />
               {isFocused && (
-                <span onClick={passwordVisibilityToggle}>
+                <span onMouseDown={passwordVisibilityToggle}>
                   {isShowPassword ? <IoEye /> : <IoEyeOff />}
                 </span>
               )}

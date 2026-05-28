@@ -226,6 +226,10 @@
     .search_icon {
         right: 2.5rem;
     }
+
+    .copy_link_container {
+        display: none;
+    }
 }
 
 /* general styles */
