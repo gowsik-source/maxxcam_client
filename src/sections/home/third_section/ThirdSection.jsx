@@ -18,7 +18,7 @@ const ThirdSection = () => {
   // console.log(isCategoryFilteredProducts, 'isCategoryFilteredProducts');
 
   useEffect(() => {
-    // setIsCategoryFilteredProducts(data.filter(products => (products.category === 'digital_cameras')))
+    // setIsCategoryFilteredProducts(data.filter(products => (products.category === 'digital-cameras')))
     const getProducts = async () => {
       try {
         const response = await Axios.get('/api/product/digital-cameras');
