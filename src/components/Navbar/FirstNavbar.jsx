@@ -1,15 +1,65 @@
-import React from 'react'
-import Cart from '../Cart';
+import React, { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom'
-import style from './first_navbar.module.css'
-import Logo from '../../assets/logo.png'
+import Cart from '../Cart';
+import style from './first_navbar.module.css';
+import Logo from '../../assets/logo.png';
 import { useCart } from '../../context/CartContext';
+import { useAuth } from '../../context/AuthContext';
 import { FaUserCircle } from "react-icons/fa";
 import { IoBagSharp } from "react-icons/io5";
+import { FiLogOut } from "react-icons/fi";
 
 const FirstNavbar = () => {
-
+    // useContexts
     const { openCart, cartItems, isCartOpen } = useCart();
+    const { userLoginData, userDataFromJwtToken, isLogin, logoutHandler } = useAuth();
+    // useStates
+    const navigate = useNavigate();
+    const [isLoginMenuOpen, setIsLoginMenuOpen] = useState(false);
+    const loginMenuRef = useRef(null);
+
+    const afterLoginPopupMenuOptions = [
+        {
+            id: 1,
+            optionName: 'Profile',
+            Icon: FaUserCircle,
+            path: '/faq'
+        },
+        {
+            id: 2,
+            optionName: 'Settings',
+            Icon: FaUserCircle,
+            path: '/contact'
+        }
+    ];
+
+    useEffect(() => {
+        const clickOutsideCloseLoginMenuHandler = (event) => {
+            if (loginMenuRef.current && !loginMenuRef.current.contains(event.target)) {
+                setIsLoginMenuOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", clickOutsideCloseLoginMenuHandler);
+
+        return () => {
+            document.removeEventListener("mousedown", clickOutsideCloseLoginMenuHandler);
+        };
+    }, []);
+
+    const loginButtonHandler = () => {
+        if (isLogin) {
+            setIsLoginMenuOpen(prev => !prev);
+        } else {
+            // navigate to login page
+            navigate('/login');
+        }
+    };
+
+    const closeLoginMenu = () => {
+        setIsLoginMenuOpen(false);
+    };
 
     return (
         <div>
@@ -18,7 +68,7 @@ const FirstNavbar = () => {
                     <div className={style.display}>
                         <div className={style.container_for_logo}>
                             <Link to={'/'} className={style.logo_display}>
-                                <img src={Logo} alt="max cam" />
+                                <img src={Logo} alt="maxxcam" />
                             </Link>
                             <span className={style.logo_text_display}>
                                 <Link to={'/'} className={style.maxcam}>
@@ -38,15 +88,23 @@ const FirstNavbar = () => {
                     </div>
                     <div className={style.display}>
                         <div className={style.icon_container}>
+                            {/* login Or user menu */}
                             <div className={style.login_section}>
-                                <Link to={'/login'} className={style.login}>
-                                    <span><FaUserCircle /></span>
-                                    <span className={style.login_text}>Log In</span>
-                                </Link>
+                                {!isLogin ?
+                                    <Link to={'/login'} className={style.login_link}>
+                                        <span className={style.login_icon}><FaUserCircle /></span>
+                                        <span className={style.login_text}>Login</span>
+                                    </Link>
+                                    :
+                                    <button className={`default_btn ${style.login}`} onClick={loginButtonHandler} ref={loginMenuRef}>
+                                        <span className={style.login_icon}><FaUserCircle /></span>
+                                        <span className={style.login_text}>{userLoginData || userDataFromJwtToken ? userLoginData?.firstName || userDataFromJwtToken?.firstName : 'Login'}</span>
+                                    </button>}
                             </div>
+                            {/* cart */}
                             <div className={style.cart_section}>
                                 <button className={`default_btn ${style.cart_btn}`} onClick={openCart}>
-                                    <span><IoBagSharp /></span>
+                                    <span className={style.cart_icon}><IoBagSharp /></span>
                                     <span className={style.number_of_items_in_cart}>{cartItems?.length || 0}</span>
                                 </button>
                             </div>
@@ -54,6 +112,26 @@ const FirstNavbar = () => {
                     </div>
                 </div>
             </div>
+            {isLoginMenuOpen && <div className={style.after_login_popup_menu_container}>
+                {afterLoginPopupMenuOptions.map((loginMenuOption) => {
+                    const Icon = loginMenuOption.Icon;
+                    return (
+                        <div key={loginMenuOption.id}>
+                            <Link to={loginMenuOption.path} className={style.after_login_popup_menu_option} onClick={closeLoginMenu}>
+                                <span className={style.after_login_popup_menu_option_icon}>{Icon ? <Icon /> : '*'}</span>
+                                <span>{loginMenuOption.optionName}</span>
+                            </Link>
+                        </div>
+                    );
+                })}
+                <hr />
+                <div>
+                    <a href='/' className={style.after_login_popup_menu_option} onClick={logoutHandler}>
+                        <span className={style.after_login_popup_menu_option_icon}><FiLogOut /></span>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>}
             <div>
                 {isCartOpen && <Cart />}
             </div>

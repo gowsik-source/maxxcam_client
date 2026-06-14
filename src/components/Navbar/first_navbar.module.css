@@ -60,10 +60,21 @@
 }
 
 .login {
-    color: var(--primary-color) !important;
-    display: inline-flex;
+    color: var(--primary-color);
+    gap: 0.5rem;
+}
+
+.login_link {
+    color: var(--primary-color);
+    display: flex;
     align-items: center;
     gap: 0.5rem;
+}
+
+.login_icon,
+.login_section{
+    display: flex;
+    align-items: center;
 }
 
 .login_text{
@@ -72,12 +83,19 @@
 
 .cart_section {
     position: relative;
+    display: flex;
+}
+
+.cart_icon{
+    display: flex;
+    align-items: center;
 }
 
 .number_of_items_in_cart {
     position: absolute;
-    top: 28%;
-    right: 23%;
+    top: 35%;
+    transform: translateX(50%);
+    right: 50%;
     color: white;
     font-size: 12px;
     width: 18px;
@@ -87,6 +105,31 @@
     align-items: center;
     justify-content: center;
     z-index: 5;
+}
+
+.after_login_popup_menu_container {
+    min-height: fit-content;
+    max-height: 100vh;
+    overflow: auto;
+    width: 15%;
+    position: absolute;
+    left: 75%;
+    background-color: white;
+    z-index: 1000;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+}
+
+.after_login_popup_menu_option{
+    display: flex;
+    gap: 5px;
+    padding: 5px 0 5px clamp(0.4rem, 1vw, 1rem);
+    align-items: center;
+}
+
+.after_login_popup_menu_option_icon{
+    display: flex;
+    align-items: center;
 }
 
 @media (max-width: 768px) {
@@ -104,5 +147,9 @@
     
     .perfect_picture {
         font-size: 0.7rem;
+    }
+
+    .after_login_popup_menu_container{
+        max-height: 50vh;
     }
 }

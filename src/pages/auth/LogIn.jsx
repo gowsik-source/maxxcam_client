@@ -1,18 +1,21 @@
 import React, { useState } from 'react'
 import style from './login.module.css'
 import Axios from '../../API/Axios'
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { MdErrorOutline } from "react-icons/md"
-import { ToastContainer, toast, Bounce } from 'react-toastify'
+import { toast, Bounce } from 'react-toastify'
+import { useAuth } from '../../context/AuthContext'
 
 const LogIn = () => {
 
-    // const navigation = useNavigate();
+    const navigate = useNavigate();
     const [isEmail, setIsEmail] = useState('');
     const [isPassword, setIsPassword] = useState('');
+    const [isShowPassword, setIsShowPassword] = useState(false);
     const [isError, setIsError] = useState({});
     const [loading, setLoading] = useState(false);
+    const { loginHandler } = useAuth();
 
     // toastify configuration
     const tostifySetup = {
@@ -23,7 +26,7 @@ const LogIn = () => {
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
-        theme: "light",
+        theme: "colored",
         transition: Bounce,
         closeButton: false,
     };
@@ -40,6 +43,9 @@ const LogIn = () => {
         if (!isPassword.trim()) {
             localError.password = "Enter a password.";
         }
+        else if (isPassword.length < 8) {
+            localError.password = "Password must be at least 8 characters.";
+        }
         setIsError(localError)
         return Object.keys(localError).length === 0
     }
@@ -54,11 +60,19 @@ const LogIn = () => {
                     password: isPassword
                 }
                 const response = await Axios.post('/api/user/login', payLoad);
-                // console.log(response);
+                console.log(response);
                 const tryMessage = response.data.message;
+                const jwtToken = response.data.token;
+                const user = response.data.data;
+                // console.log(user,'user');
                 if (response.status === 200) {
                     toast.success(tryMessage, tostifySetup);
+                    loginHandler(jwtToken, user); // call the login function from useAuth to Store the JWT token in localStorage & set the user data in the context
                 }
+                // navigate to login page after successful registration
+                setTimeout(() => {
+                    navigate('/');
+                }, 4000);
             } catch (error) {
                 // console.log(error ? error.message : 'Something went wrong');
                 const catchMessage = error.response.data.message;
@@ -105,7 +119,15 @@ const LogIn = () => {
                             </div>
                         </div>}
                         <div className={style.password_input}>
-                            <input type="password" className={`default_input_style ${isError.password ? style.input_validation_error : ''}`} placeholder='Password *' value={isPassword} onChange={(e) => setIsPassword(e.target.value)} />
+                            <input type={isShowPassword ? "text" :"password"} className={`default_input_style ${isError.password ? style.input_validation_error : ''}`} placeholder='Password *' value={isPassword} onChange={(e) => setIsPassword(e.target.value)} />
+                        </div>
+                        <div className={style.password_checkbox_label_display}>
+                            <div className={style.password_input_changer_checkbox}>
+                                <input type="checkbox" id='password_input_change' checked={isShowPassword} onChange={(e) => setIsShowPassword(e.target.checked)} />
+                            </div>
+                            <div className={style.password_input_changer_label}>
+                                <label htmlFor="password_input_change">Show Password</label>
+                            </div>
                         </div>
                         {isError.password && <div className={style.error_message_container}>
                             <div className={style.error_icon}>
@@ -119,7 +141,7 @@ const LogIn = () => {
                             <Link to='/forgot_password'>Forgot password?</Link>
                         </div>
                         <div className={style.login_button}>
-                            <button type='submit' className={ loading ? style.log_in_btn_disbled : style.log_in_btn} disabled={loading}>{loading ? 'Logging...' : 'Log In'}</button>
+                            <button type='submit' className={loading ? style.log_in_btn_disbled : style.log_in_btn} disabled={loading}>{loading ? 'Logging...' : 'Log In'}</button>
                         </div>
                     </form>
                     <div className={style.not_a_member_section}>
@@ -128,7 +150,6 @@ const LogIn = () => {
                             <Link to='/register'>Register</Link>
                         </span>
                     </div>
-                    <ToastContainer />
                 </div>
             </div>
         </div>

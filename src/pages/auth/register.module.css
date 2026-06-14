@@ -18,41 +18,47 @@ input::placeholder {
     font-weight: normal;
 }
 
-.input_validation_error {
-    border-bottom-color: red !important;
-}
-
-.error_message_container {
-    margin-top: 2px;
-    display: flex;
+.conditions_checkbox_label_display,
+.confirm_password_checkbox_label_display,
+.password_checkbox_label_display{
+    display: inline-flex;
+    gap: 0.3rem;
     align-items: center;
-    gap: 0.2rem;
-    color: red;
-    font-size: 0.8rem;
-}
-
-.error_icon {
-    display: flex;
-    align-items: center;
-}
-
-.password_input,
-.confirm_password_input{
-    position: relative;
-}
-
-.password_input input,
-.confirm_password_input input{
-    padding-right: 40px;
-}
-
-.password_input span,
-.confirm_password_input span{
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
     cursor: pointer;
+}
+
+.conditions_checkbox_label_display_margin_top,
+.conditions_checkbox_label_display{
+    display: inline-flex;
+    gap: 0.3rem;
+    align-items: flex-start;
+    cursor: pointer;
+    font-size: 0.7rem;
+}
+
+.confirm_password_input_changer_checkbox,
+.password_input_changer_checkbox{
+    display: inline-flex;
+    align-items: center;
+}
+
+.conditions_checkbox_label_display input[type="checkbox"],
+.conditions_checkbox_label_display_margin_top input[type="checkbox"],
+.confirm_password_input_changer_checkbox input[type="checkbox"],
+.password_input_changer_checkbox input[type="checkbox"] {
+    accent-color: var(--primary-color);
+    cursor: pointer !important;
+}
+
+.conditions_checkbox_label_display_margin_top input[type="checkbox"],
+.conditions_checkbox_label_display input[type="checkbox"] {
+    transform: scale(0.8);
+}
+
+.conditions_checkbox_label_display p a,
+.conditions_checkbox_label_display_margin_top p a {
+    color: var(--primary-color) !important;
+    text-decoration: underline !important;
 }
 
 .register_btn{
@@ -72,6 +78,14 @@ input::placeholder {
     text-decoration: underline;
 }
 
+.register_btn_disabled{
+    width: 100%;
+    height: 2.1rem;
+    cursor: not-allowed;
+    color: white;
+    background-color: gray;
+}
+
 @media (max-width: 768px) {
     .display {
         width: 90%;
@@ -79,12 +93,51 @@ input::placeholder {
 }
 
 /* general styles */
+.input_validation_error {
+    border-bottom-color: red !important;
+}
+
+.error_message_container {
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    color: red;
+    font-size: 0.8rem;
+}
+
+.error_icon {
+    display: flex;
+    align-items: center;
+}
+
 .first_name_input,
 .last_name_input,
 .contact_no_input,
 .email_input,
 .password_input,
-.confirm_password_input,
-.register_button{
+.confirm_password_input{
     margin-top: 2rem;
+}
+
+.conditions_checkbox_label_display_margin_top{
+    margin-top: 1rem;
+}
+
+.confirm_password_checkbox_label_display,
+.password_checkbox_label_display,
+.register_button{
+    margin-top: 0.5rem;
+}
+
+/* toastify */
+@media only screen and (max-width: 480px) {
+
+    :global(.Toastify__toast-container) {
+
+        width: 90vw !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+
 }

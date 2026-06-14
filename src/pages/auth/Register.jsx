@@ -1,10 +1,12 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import style from './register.module.css'
-import axios from 'axios'
+import Axios from '../../API/Axios'
+import { toast, Bounce } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
 // icons
 import { MdErrorOutline } from "react-icons/md"
-import { IoEye, IoEyeOff } from "react-icons/io5";
+
 const Register = () => {
 
   const [formData, setFormData] = useState(
@@ -19,10 +21,24 @@ const Register = () => {
   ); // to store form data
   const [isError, setIsError] = useState({}); // to store validation error
   const [isShowPassword, setIsShowPassword] = useState(false); // to toggle password visibility
-  const [isFocused, setIsFocused] = useState(false); // to focus password field
   const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false); // to toggle password visibility
-  const [isConfirmPasswordFocused, setIsConfirmPasswordFocused] = useState(false); // to toggle Confirm password visibility
-  const passwordRef = useRef(null); // to focus confirm password field
+  const [isAcceptConditions, setIsAcceptConditions] = useState(false); // to store terms and conditions, privacy policy acceptance
+  const [loading, setLoading] = useState(false); // to show loading state during API call
+  const navigate = useNavigate();
+
+  // toastify configuration
+  const tostifySetup = {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: false,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+    transition: Bounce,
+    closeButton: false,
+  };
 
   const validationHandler = (name, value) => {
     let localError = '';
@@ -98,6 +114,13 @@ const Register = () => {
     setIsError((prev) => ({ ...prev, [name]: errorMessage }));
   }
 
+  const acceptConditionHandler = () => {
+    setIsAcceptConditions(prev => !prev);
+    if (!isAcceptConditions) {
+      setIsError((prev) => ({ ...prev, acceptCondition: "" }));
+    }
+  }
+
   // for register button click
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -120,31 +143,47 @@ const Register = () => {
       );
       return;
     }
+    if (!isAcceptConditions) {
+      setIsError((prev) => ({ ...prev, acceptCondition: "You must accept the terms and conditions and privacy policy." }));
+      return;
+    }
     try {
-      const apiFormData = {
+      setLoading(true);
+      const payLoad = {
         firstName: formData.firstName,
         lastName: formData.lastName,
         contactNo: formData.contactNo,
         email: formData.email,
         password: formData.password
       }
-      const response = await axios.post('https://jsonplaceholder.typicode.com/posts', apiFormData);
-      console.log(response);
+      const response = await Axios.post('/api/user/register', payLoad);
+      // console.log(response, 'response');
+      const tryMessage = response.data.message;
+      if (response.status === 201) {
+        toast.success(tryMessage, tostifySetup);
+      }
+      // navigate to login page after successful registration
+      setTimeout(() => {
+        navigate('/login');
+      }, 7000);
     } catch (error) {
-      console.log(error || 'API error or network error');
+      // console.log(error || 'API error or network error');
+      const catchMessage = error.response.data.message;
+      // console.log(catchMessage,'catch message');
+      const catchStatusCode = error.response.status;
+
+      if (catchStatusCode === 400) {
+        toast.warning(catchMessage, tostifySetup);
+      }
+      else if (catchStatusCode === 500) {
+        toast.error(catchMessage, tostifySetup);
+      }
+      else {
+        toast.error('Something went wrong. Please try again later.', tostifySetup);
+      }
+    } finally {
+      setLoading(false);
     }
-  }
-
-  // to handle password visibility toggle
-  const passwordVisibilityToggle = (event) => {
-    event.preventDefault();
-    setIsShowPassword((prev) => !prev);
-  }
-
-  // to handle confirm password visibility toggle
-  const confirmPasswordVisibilityToggle = (event) => {
-    event.preventDefault();
-    setIsShowConfirmPassword((prev) => !prev);
   }
 
   return (
@@ -205,12 +244,16 @@ const Register = () => {
             </div>}
             {/* password */}
             <div className={style.password_input}>
-              <input type={isShowPassword ? "text" : "password"} className={`default_input_style ${isError.password ? style.input_validation_error : ''}`} placeholder='Password *' name="password" value={formData.password} onChange={changeHandler} onFocus={() => setIsFocused(true)} onBlur={() => setIsFocused(false)} ref={passwordRef} />
-              {isFocused && (
-                <span onMouseDown={passwordVisibilityToggle}>
-                  {isShowPassword ? <IoEye /> : <IoEyeOff />}
-                </span>
-              )}
+              <input type={isShowPassword ? "text" : "password"} className={`default_input_style ${isError.password ? style.input_validation_error : ''}`} placeholder='Password *' name="password" value={formData.password} onChange={changeHandler} />
+            </div>
+            {/* Show password checkbox */}
+            <div className={style.password_checkbox_label_display}>
+              <div className={style.password_input_changer_checkbox}>
+                <input type="checkbox" id='password_input_change' checked={isShowPassword} onChange={(e) => setIsShowPassword(e.target.checked)} />
+              </div>
+              <div className={style.password_input_changer_label}>
+                <label htmlFor="password_input_change">Show Password</label>
+              </div>
             </div>
             {isError.password && <div className={style.error_message_container}>
               <div className={style.error_icon}>
@@ -222,12 +265,16 @@ const Register = () => {
             </div>}
             {/* confirm password */}
             <div className={style.confirm_password_input}>
-              <input type={isShowConfirmPassword ? "text" : "password"} className={`default_input_style ${isError.confirmPassword ? style.input_validation_error : ''}`} placeholder='Confirm Password *' name="confirmPassword" value={formData.confirmPassword} onChange={changeHandler} onFocus={() => setIsConfirmPasswordFocused(true)} onBlur={() => setIsConfirmPasswordFocused(false)} />
-              {isConfirmPasswordFocused && (
-                <span onMouseDown={confirmPasswordVisibilityToggle}>
-                  {isShowConfirmPassword ? <IoEye /> : <IoEyeOff />}
-                </span>
-              )}
+              <input type={isShowConfirmPassword ? "text" : "password"} className={`default_input_style ${isError.confirmPassword ? style.input_validation_error : ''}`} placeholder='Confirm Password *' name="confirmPassword" value={formData.confirmPassword} onChange={changeHandler} />
+            </div>
+            {/* Show confirm password checkbox */}
+            <div className={style.confirm_password_checkbox_label_display}>
+              <div className={style.confirm_password_input_changer_checkbox}>
+                <input type="checkbox" id='confirm_password_input_change' checked={isShowConfirmPassword} onChange={(e) => setIsShowConfirmPassword(e.target.checked)} />
+              </div>
+              <div className={style.confirm_password_input_changer_label}>
+                <label htmlFor="confirm_password_input_change">Show Confirm Password</label>
+              </div>
             </div>
             {isError.confirmPassword && <div className={style.error_message_container}>
               <div className={style.error_icon}>
@@ -237,9 +284,32 @@ const Register = () => {
                 <p>{isError.confirmPassword}</p>
               </div>
             </div>}
+            <br />
+            {/* terms & conditions and privacy policy */}
+            <div onClick={acceptConditionHandler} className={!isError.confirmPassword ? style.conditions_checkbox_label_display_margin_top : style.conditions_checkbox_label_display}>
+              <input type="checkbox" checked={isAcceptConditions} onChange={(e) => setIsAcceptConditions(e.target.checked)} />
+              <p>
+                By Continue, you agree to the
+                <a href="/" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                  {' Terms and Conditions'}
+                </a>
+                {" & "}
+                <a href="/contact" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                  Privacy Policy
+                </a>
+              </p>
+            </div>
+            {isError.acceptCondition && <div className={style.error_message_container}>
+              <div className={style.error_icon}>
+                <MdErrorOutline />
+              </div>
+              <div className={style.error_message}>
+                <p>{isError.acceptCondition}</p>
+              </div>
+            </div>}
             {/* register button */}
             <div className={style.register_button}>
-              <button type='submit' className={style.register_btn}>Register</button>
+              <button type='submit' className={loading ? style.register_btn_disabled : style.register_btn} disabled={loading}>{loading ? 'Registering...' : 'Register'}</button>
             </div>
           </form>
         </div>

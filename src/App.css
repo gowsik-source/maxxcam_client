@@ -16,10 +16,6 @@ html {
     flex-direction: column;
 }
 
-body.no_scroll {
-    overflow: hidden;
-}
-
 .section_heading{
     text-align: center;
 }

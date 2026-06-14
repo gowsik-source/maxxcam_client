@@ -18,22 +18,26 @@ input::placeholder {
     font-weight: normal;
 }
 
-.input_validation_error {
-    border-bottom-color: red !important;
+.password_checkbox_label_display{
+    margin-top: 0.5rem;
+    display: inline-flex;
+    gap: 0.3rem;
+    align-items: center;
+    cursor: pointer;
 }
 
-.error_message_container {
-    margin-top: 2px;
-    display: flex;
+.password_input_changer_checkbox{
+    display: inline-flex;
     align-items: center;
-    gap: 0.2rem;
-    color: red;
-    font-size: 0.8rem;
 }
 
-.error_icon {
-    display: flex;
-    align-items: center;
+.password_input_changer_checkbox input[type="checkbox"] {
+    accent-color: var(--primary-color);
+    cursor: pointer !important;
+}
+
+.password_input_changer_label label{
+    cursor: pointer;
 }
 
 .forgot_password a {
@@ -86,6 +90,24 @@ input::placeholder {
 }
 
 /* general styles */
+.input_validation_error {
+    border-bottom-color: red !important;
+}
+
+.error_message_container {
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    color: red;
+    font-size: 0.8rem;
+}
+
+.error_icon {
+    display: flex;
+    align-items: center;
+}
+
 .email_input,
 .password_input,
 .forgot_password,
@@ -99,9 +121,9 @@ input::placeholder {
 
     :global(.Toastify__toast-container) {
 
-        width: 90vw;
-        left: 50%;
-        transform: translateX(-50%);
+        width: 90vw !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
     }
 
 }
