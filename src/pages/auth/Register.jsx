@@ -290,11 +290,11 @@ const Register = () => {
               <input type="checkbox" checked={isAcceptConditions} onChange={(e) => setIsAcceptConditions(e.target.checked)} />
               <p>
                 By Continue, you agree to the
-                <a href="/" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                <a href="/terms_conditions" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
                   {' Terms and Conditions'}
                 </a>
                 {" & "}
-                <a href="/contact" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                <a href="/privacy_policy" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
                   Privacy Policy
                 </a>
               </p>

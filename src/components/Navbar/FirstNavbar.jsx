@@ -6,8 +6,12 @@ import style from './first_navbar.module.css';
 import Logo from '../../assets/logo.png';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
+// icons
 import { FaUserCircle } from "react-icons/fa";
 import { IoBagSharp } from "react-icons/io5";
+import { CiUser } from "react-icons/ci";
+import { CiSettings } from "react-icons/ci";
+import { IoIosHelpCircleOutline } from "react-icons/io"; // IoIosHelpCircleOutline
 import { FiLogOut } from "react-icons/fi";
 
 const FirstNavbar = () => {
@@ -23,13 +27,13 @@ const FirstNavbar = () => {
         {
             id: 1,
             optionName: 'Profile',
-            Icon: FaUserCircle,
+            Icon: CiUser,
             path: '/faq'
         },
         {
             id: 2,
             optionName: 'Settings',
-            Icon: FaUserCircle,
+            Icon: CiSettings,
             path: '/contact'
         }
     ];

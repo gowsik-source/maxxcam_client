@@ -1,0 +1,29 @@
+.container{
+    margin: 2rem 0 3rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+.display{
+    width: 90%;
+}
+
+.display h1,
+.display h2,
+.display h3,
+.display h4{
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.display ul {
+    margin: 1rem 0;
+}
+
+.loader {
+    width: 100%;
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
