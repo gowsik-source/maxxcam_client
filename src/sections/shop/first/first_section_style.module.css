@@ -282,6 +282,14 @@
     visibility: hidden;
 }
 
+.loading {
+    width: 100%;
+    min-height: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* -------------------empty message styles */
 
 .empty_message_container {

@@ -27,6 +27,7 @@ const FirstSection = () => {
   const [isSelect, setIsSelect] = useState('Recommended');
   const [isSortByOpen, setIsSortByOpen] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState(null);
+  const [loading, setLoading] = useState(false);
   const sortByRef = useRef(null);
 
   //mobile responsive
@@ -59,24 +60,32 @@ const FirstSection = () => {
   // fetch all products
   const fetchAllProducts = async () => {
     try {
+      setFilteredProducts([]);
+      setLoading(true);
       const allProductsResponse = await Axios.get('/api/product/all-products');
       const allProductsData = allProductsResponse.data.data;
       // console.log(allProductsData, "all products data from shop")
       setFilteredProducts(allProductsData);
     } catch (error) {
       console.log(error ? error.message : "Error fetching all products");
+    } finally {
+      setLoading(false);
     }
   }
 
   // fetch lenses & accessories products
   const fetchLensesAccessoriesProducts = async () => {
     try {
+      setFilteredProducts([]);
+      setLoading(true);
       const productsResponse = await Axios.get('/api/product/lenses-and-accessories');
       const allProductsData = productsResponse.data.data;
       // console.log(allProductsData, "all products data from shop")
       setFilteredProducts(allProductsData);
     } catch (error) {
       console.log(error ? error.message : "Error fetching Lenses & Accessories products");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -142,12 +151,15 @@ const FirstSection = () => {
   useEffect(() => {
     const allProductsPriceFilterHandler = async () => {
       try {
+        setLoading(true);
         const allProductsResponse = await Axios.get('/api/product/all-products');
         const fetchedProducts = allProductsResponse.data.data;
         const productFound = fetchedProducts.filter((product) => product.price >= minPrice && product.price <= maxPrice);
         setFilteredProducts(productFound);
       } catch (error) {
         console.log(error ? error.message : "Error fetching all products for price filter");
+      } finally {
+        setLoading(false);
       }
     }
     allProductsPriceFilterHandler();
@@ -420,7 +432,7 @@ const FirstSection = () => {
                   <button className='default_btn' onClick={clearAllFilter}>Clear All</button>
                 </div>
               </div>
-              <div className={style.product_count_sort_by}>
+              {!loading && <div className={style.product_count_sort_by}>
                 <div className={style.product_count}>
                   <span>{filteredProducts.length}</span>
                   <h4>products</h4>
@@ -450,7 +462,10 @@ const FirstSection = () => {
                     ))}
                   </ul>
                 </div>
-              </div>
+              </div>}
+              {loading && <div className={style.loading}>
+                <h1>Loading...</h1>
+              </div>}
               <div className={style.parent_container_for_maped_items}>
                 <div className={style.container_for_maped_items}>
                   {filteredProducts.map((products, index) => (
@@ -478,7 +493,7 @@ const FirstSection = () => {
                   ))}
                 </div>
               </div>
-              <div className={cartIsEmpty ? style.empty_message_container : style.empty_message_container_hidden}>
+              <div className={cartIsEmpty && !loading ? style.empty_message_container : style.empty_message_container_hidden}>
                 <div>
                   <h2>We couldn't find any matches</h2>
                 </div>

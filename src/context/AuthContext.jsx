@@ -1,8 +1,28 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { CiUser } from "react-icons/ci";
+import { CiSettings } from "react-icons/ci";
+// import { IoIosHelpCircleOutline } from "react-icons/io"; // IoIosHelpCircleOutline
+
 import Axios from '../API/Axios';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+
+    const afterLoginPopupMenuOptions = [
+        {
+            id: 1,
+            optionName: 'Profile',
+            Icon: CiUser,
+            path: '/faq'
+        },
+        {
+            id: 2,
+            optionName: 'Settings',
+            Icon: CiSettings,
+            path: '/contact'
+        }
+    ];
+
     const [isLogin, setIsLogin] = useState(false);
     const [userLoginData, setUserLoginData] = useState(null);
     const [userDataFromJwtToken, setUserDataFromJwtToken] = useState(null);
@@ -51,6 +71,7 @@ export const AuthProvider = ({ children }) => {
     return (
         <AuthContext.Provider
             value={{
+                afterLoginPopupMenuOptions,
                 // useSates
                 isLogin,
                 setIsLogin,

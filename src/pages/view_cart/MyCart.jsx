@@ -41,7 +41,7 @@ const MyCart = () => {
       return {
         ...prev,
         products: cartItems.map((item) => ({
-          id: item.id,
+          id: item._id,
           name: item.name,
           price: item.price,
           quantity: item.quantity
@@ -119,13 +119,13 @@ const MyCart = () => {
                         <p>₨: {items?.price}</p>
                       </div>
                       <div className={style.quantity_container_for_mobile_responsive}>
-                        <button className={`default_btn ${items.quantity === 1 ? style.minus_disabled : ''}`} onClick={() => decreaseQuantity(items.id)} >
+                        <button className={`default_btn ${items.quantity === 1 ? style.minus_disabled : ''}`} onClick={() => decreaseQuantity(items._id)} >
                           <FaMinus />
                         </button>
                         <div className={style.quantity_number}>
                           <p>{items.quantity}</p>
                         </div>
-                        <button className={"default_btn"} onClick={() => increaseQuantity(items.id)}>
+                        <button className={"default_btn"} onClick={() => increaseQuantity(items._id)}>
                           <IoMdAdd />
                         </button>
                       </div>
@@ -133,20 +133,20 @@ const MyCart = () => {
                   </div>
                   <div className={style.item_quantity_total_delete}>
                     <div className={style.quantity_container}>
-                      <button className={`default_btn ${items.quantity === 1 ? style.minus_disabled : ''}`} onClick={() => decreaseQuantity(items.id)} >
+                      <button className={`default_btn ${items.quantity === 1 ? style.minus_disabled : ''}`} onClick={() => decreaseQuantity(items._id)} >
                         <FaMinus />
                       </button>
                       <div className={style.quantity_number}>
                         <p>{items.quantity}</p>
                       </div>
-                      <button className={"default_btn"} onClick={() => increaseQuantity(items.id)}>
+                      <button className={"default_btn"} onClick={() => increaseQuantity(items._id)}>
                         <IoMdAdd />
                       </button>
                     </div>
                     <div className={style.total_price_each_item}>
                       <p>₨: {items.price * items.quantity}</p>
                     </div>
-                    <button className={`default_btn ${style.delete_button}`} onClick={() => removeFromCart(items.id)}>
+                    <button className={`default_btn ${style.delete_button}`} onClick={() => removeFromCart(items._id)}>
                       <RiDeleteBinLine />
                     </button>
                   </div>

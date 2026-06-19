@@ -52,6 +52,7 @@ const SecondNavbar = () => {
                     <li><NavLink to="/contact" className={({ isActive }) => (isActive ? style.mobile_nav_active : style.mobile_nav_inactive)} onClick={hideMobileNavBarHandler}>Contact</NavLink></li>
                 </ul>
             </div>
+            
         </div>
     )
 }

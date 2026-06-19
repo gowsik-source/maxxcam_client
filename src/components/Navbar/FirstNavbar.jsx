@@ -9,34 +9,16 @@ import { useAuth } from '../../context/AuthContext';
 // icons
 import { FaUserCircle } from "react-icons/fa";
 import { IoBagSharp } from "react-icons/io5";
-import { CiUser } from "react-icons/ci";
-import { CiSettings } from "react-icons/ci";
-import { IoIosHelpCircleOutline } from "react-icons/io"; // IoIosHelpCircleOutline
 import { FiLogOut } from "react-icons/fi";
 
 const FirstNavbar = () => {
     // useContexts
     const { openCart, cartItems, isCartOpen } = useCart();
-    const { userLoginData, userDataFromJwtToken, isLogin, logoutHandler } = useAuth();
+    const { afterLoginPopupMenuOptions, userLoginData, userDataFromJwtToken, isLogin, logoutHandler } = useAuth();
     // useStates
     const navigate = useNavigate();
     const [isLoginMenuOpen, setIsLoginMenuOpen] = useState(false);
     const loginMenuRef = useRef(null);
-
-    const afterLoginPopupMenuOptions = [
-        {
-            id: 1,
-            optionName: 'Profile',
-            Icon: CiUser,
-            path: '/faq'
-        },
-        {
-            id: 2,
-            optionName: 'Settings',
-            Icon: CiSettings,
-            path: '/contact'
-        }
-    ];
 
     useEffect(() => {
         const clickOutsideCloseLoginMenuHandler = (event) => {
