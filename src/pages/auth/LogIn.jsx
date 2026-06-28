@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import style from './login.module.css'
 import Axios from '../../API/Axios'
-import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { MdErrorOutline } from "react-icons/md"
 import { toast, Bounce } from 'react-toastify'
@@ -9,7 +8,6 @@ import { useAuth } from '../../context/AuthContext'
 
 const LogIn = () => {
 
-    const navigate = useNavigate();
     const [isEmail, setIsEmail] = useState('');
     const [isPassword, setIsPassword] = useState('');
     const [isShowPassword, setIsShowPassword] = useState(false);
@@ -63,15 +61,13 @@ const LogIn = () => {
                 console.log(response);
                 const tryMessage = response.data.message;
                 const jwtToken = response.data.token;
-                const user = response.data.data;
-                // console.log(user,'user');
                 if (response.status === 200) {
                     toast.success(tryMessage, tostifySetup);
-                    loginHandler(jwtToken, user); // call the login function from useAuth to Store the JWT token in localStorage & set the user data in the context
+                    loginHandler(jwtToken); // call the login function from useAuth to Store the JWT token in localStorage & set the user data in the context
                 }
                 // navigate to login page after successful registration
                 setTimeout(() => {
-                    navigate('/');
+                    window.location.href = '/';
                 }, 4000);
             } catch (error) {
                 // console.log(error ? error.message : 'Something went wrong');

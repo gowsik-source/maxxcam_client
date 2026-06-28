@@ -37,14 +37,12 @@
 
 .nav_icon_for_mobile,
 .mobile_menu_nav,
-.mobile_menu_nav_close_hidden {
+.mobile_menu_nav_close_hidden,
+.after_login_popup_menu_container {
     display: none;
 }
 
 @media (max-width: 768px) {
-    .parent_container {
-        margin-top: 0.5rem;
-    }
 
     .menu,
     .mobile_menu_nav_close_hidden {
@@ -96,6 +94,68 @@
         box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
     }
 
+    .mobile_nav_header {
+        /* height: 20%; */
+        background-color: lavender;
+    }
+
+    .mobile_nav_login_section{
+        display: flex;
+        justify-content: flex-end;
+        width: 95%;
+    }
+
+    /* logo */
+    .container_for_logo_mobile_nav{
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .container_for_logo {
+        display: inline-flex;
+    }
+
+    .logo_display img {
+        height: 2rem;
+        /* width: 100%; */
+    }
+
+    .logo_display {
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    .logo_text_display {
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .maxcam {
+        display: inline-flex;
+        font-size: 0.5rem;
+        width: fit-content;
+        cursor: pointer;
+    }
+
+    .perfect_picture {
+        cursor: pointer;
+        font-size: small;
+    }
+
+    .cam,
+    .login_link,
+    .login {
+        color: var(--primary-color);
+    }
+    /* ------ */
+
+    .mobile_nav_body {
+        height: 80%;
+    }
+
     .mobile_menu_nav_close_visible {
         display: block;
         position: absolute;
@@ -110,9 +170,40 @@
         background-color: var(--primary-color);
         display: flex;
     }
-    
-    .mobile_nav_inactive {
+
+    .mobile_nav_inactive,
+    .logout_link {
         padding: 10px 0 10px clamp(1rem, 1vw, 1rem);
         display: flex;
+    }
+
+    .after_login_popup_menu_container div li a,
+    .login_link,
+    .login,
+    .logout_link {
+        display: flex;
+        gap: 5px;
+    }
+
+    .after_login_popup_menu_option_icon,
+    .login_icon,
+    .logout_icon {
+        display: flex;
+        align-items: center;
+    }
+
+    .after_login_popup_menu_container {
+        display: block;
+    }
+
+    .login_link,
+    .container_for_logo_mobile_nav,
+    .parent_container {
+        margin-top: 0.5rem;
+    }
+
+    .logo_display,
+    .logo_text_display {
+        margin-bottom: 0.5rem;
     }
 }

@@ -14,10 +14,11 @@ import { FiLogOut } from "react-icons/fi";
 const FirstNavbar = () => {
     // useContexts
     const { openCart, cartItems, isCartOpen } = useCart();
-    const { afterLoginPopupMenuOptions, userLoginData, userDataFromJwtToken, isLogin, logoutHandler } = useAuth();
+    const { afterLoginPopupMenuOptions, userDataFromJwtToken, isLogin, logoutHandler } = useAuth();
     // useStates
     const navigate = useNavigate();
     const [isLoginMenuOpen, setIsLoginMenuOpen] = useState(false);
+    // console.log(isLoginMenuOpen, "isLoginMenuOpen");
     const loginMenuRef = useRef(null);
 
     useEffect(() => {
@@ -75,17 +76,38 @@ const FirstNavbar = () => {
                     <div className={style.display}>
                         <div className={style.icon_container}>
                             {/* login Or user menu */}
-                            <div className={style.login_section}>
+                            <div className={style.login_section} ref={loginMenuRef}>
                                 {!isLogin ?
                                     <Link to={'/login'} className={style.login_link}>
                                         <span className={style.login_icon}><FaUserCircle /></span>
                                         <span className={style.login_text}>Login</span>
                                     </Link>
                                     :
-                                    <button className={`default_btn ${style.login}`} onClick={loginButtonHandler} ref={loginMenuRef}>
+                                    <button className={`default_btn ${style.login}`} onClick={loginButtonHandler}>
                                         <span className={style.login_icon}><FaUserCircle /></span>
-                                        <span className={style.login_text}>{userLoginData || userDataFromJwtToken ? userLoginData?.firstName || userDataFromJwtToken?.firstName : 'Login'}</span>
+                                        <span className={style.login_text}>{userDataFromJwtToken ? userDataFromJwtToken?.firstName : 'Login'}</span>
                                     </button>}
+
+                                {isLoginMenuOpen && <div className={style.after_login_popup_menu_container}>
+                                    {afterLoginPopupMenuOptions.map((loginMenuOption) => {
+                                        const Icon = loginMenuOption.Icon;
+                                        return (
+                                            <div key={loginMenuOption.id}>
+                                                <Link to={loginMenuOption.path} className={style.after_login_popup_menu_option} onClick={closeLoginMenu}>
+                                                    <span className={style.after_login_popup_menu_option_icon}>{Icon ? <Icon /> : '*'}</span>
+                                                    <span>{loginMenuOption.optionName}</span>
+                                                </Link>
+                                            </div>
+                                        );
+                                    })}
+                                    <hr />
+                                    <div>
+                                        <a href='/' className={style.after_login_popup_menu_option} onClick={logoutHandler}>
+                                            <span className={style.after_login_popup_menu_option_icon}><FiLogOut /></span>
+                                            <span>Logout</span>
+                                        </a>
+                                    </div>
+                                </div>}
                             </div>
                             {/* cart */}
                             <div className={style.cart_section}>
@@ -98,26 +120,7 @@ const FirstNavbar = () => {
                     </div>
                 </div>
             </div>
-            {isLoginMenuOpen && <div className={style.after_login_popup_menu_container}>
-                {afterLoginPopupMenuOptions.map((loginMenuOption) => {
-                    const Icon = loginMenuOption.Icon;
-                    return (
-                        <div key={loginMenuOption.id}>
-                            <Link to={loginMenuOption.path} className={style.after_login_popup_menu_option} onClick={closeLoginMenu}>
-                                <span className={style.after_login_popup_menu_option_icon}>{Icon ? <Icon /> : '*'}</span>
-                                <span>{loginMenuOption.optionName}</span>
-                            </Link>
-                        </div>
-                    );
-                })}
-                <hr />
-                <div>
-                    <a href='/' className={style.after_login_popup_menu_option} onClick={logoutHandler}>
-                        <span className={style.after_login_popup_menu_option_icon}><FiLogOut /></span>
-                        <span>Logout</span>
-                    </a>
-                </div>
-            </div>}
+
             <div>
                 {isCartOpen && <Cart />}
             </div>

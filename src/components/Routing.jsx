@@ -12,6 +12,7 @@ import ProductDetails from '../pages/product_details/ProductDetails';
 import LogIn from '../pages/auth/LogIn';
 import ForgotPassword from '../pages/auth/ForgotPassword';
 import Register from '../pages/auth/Register';
+import Profile from '../pages/account/Profile';
 import TermsConditions from '../pages/agreement/TermsConditions';
 import PrivacyPolicy from '../pages/agreement/PrivacyPolicy';
 import ChatBot from './ChatBot';
@@ -32,6 +33,7 @@ const Routing = () => {
                 <Route path="/login" element={<LogIn />} />
                 <Route path="/forgot_password" element={<ForgotPassword />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/profile" element={<Profile />} />
                 <Route path="/terms_conditions" element={<TermsConditions />} />
                 <Route path="/privacy_policy" element={<PrivacyPolicy />} />
             </Routes>

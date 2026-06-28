@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { CiUser } from "react-icons/ci";
 import { CiSettings } from "react-icons/ci";
+import { GoCodeOfConduct } from "react-icons/go";
+import { MdOutlinePrivacyTip } from "react-icons/md";
 // import { IoIosHelpCircleOutline } from "react-icons/io"; // IoIosHelpCircleOutline
 
 import Axios from '../API/Axios';
@@ -13,18 +15,29 @@ export const AuthProvider = ({ children }) => {
             id: 1,
             optionName: 'Profile',
             Icon: CiUser,
-            path: '/faq'
+            path: '/profile'
         },
         {
             id: 2,
             optionName: 'Settings',
             Icon: CiSettings,
-            path: '/contact'
+            path: '/settings'
+        },
+        {
+            id: 3,
+            optionName: 'Terms Conditions',
+            Icon: GoCodeOfConduct,
+            path: '/terms_conditions'
+        },
+        {
+            id: 4,
+            optionName: 'Privacy Policy',
+            Icon: MdOutlinePrivacyTip,
+            path: '/privacy_policy'
         }
     ];
 
     const [isLogin, setIsLogin] = useState(false);
-    const [userLoginData, setUserLoginData] = useState(null);
     const [userDataFromJwtToken, setUserDataFromJwtToken] = useState(null);
 
     // send jwt token to backend and get user data if token is valid
@@ -49,22 +62,20 @@ export const AuthProvider = ({ children }) => {
 
     // check if user is logged in or not
     useEffect(() => {
-        if (Object.keys(userLoginData || userDataFromJwtToken || {}).length > 0) {
+        if (Object.keys(userDataFromJwtToken || {}).length > 0) {
             setIsLogin(true);
         } else {
             setIsLogin(false);
         }
-    }, [userLoginData, userDataFromJwtToken]);
+    }, [userDataFromJwtToken]);
 
     // login function
-    const loginHandler = (token, user) => {
+    const loginHandler = (token) => {
         localStorage.setItem("token", token);
-        setUserLoginData(user);
     };
 
     const logoutHandler = () => {
         localStorage.removeItem("token");
-        setUserLoginData(null);
         setUserDataFromJwtToken(null);
     };
 
@@ -75,8 +86,6 @@ export const AuthProvider = ({ children }) => {
                 // useSates
                 isLogin,
                 setIsLogin,
-                userLoginData,
-                setUserLoginData,
                 userDataFromJwtToken,
                 setUserDataFromJwtToken,
                 // functions
