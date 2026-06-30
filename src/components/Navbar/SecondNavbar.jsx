@@ -66,7 +66,7 @@ const SecondNavbar = () => {
                             {/* {!isLogin ? */}
                                 <Link to={isLogin ? '/profile' : '/login'} className={style.login_link} onClick={hideMobileNavBarHandler}>
                                     <span className={style.login_icon}><FaUserCircle /></span>
-                                    <span className={style.login_text}>{isLogin ? userDataFromJwtToken?.firstName : 'Login'}</span>
+                                    <span className={userDataFromJwtToken?.firstName ? style.userName : style.login_text}>{isLogin ? userDataFromJwtToken?.firstName : 'Login'}</span>
                                 </Link>
                                  {/* :
                                  <button className={`default_btn ${style.login}`} onClick={loginButtonHandler}>
@@ -102,8 +102,8 @@ const SecondNavbar = () => {
                             <li><NavLink to="/shop" className={({ isActive }) => (isActive ? style.mobile_nav_active : style.mobile_nav_inactive)} onClick={hideMobileNavBarHandler}>Shop</NavLink></li>
                             <li><NavLink to="/faq" className={({ isActive }) => (isActive ? style.mobile_nav_active : style.mobile_nav_inactive)} onClick={hideMobileNavBarHandler}>Faq</NavLink></li>
                             <li><NavLink to="/contact" className={({ isActive }) => (isActive ? style.mobile_nav_active : style.mobile_nav_inactive)} onClick={hideMobileNavBarHandler}>Contact</NavLink></li>
-                            <hr />
-                            <div className={style.after_login_popup_menu_container}>
+                            {isLogin && <hr />}
+                            {isLogin && <div className={style.after_login_popup_menu_container}>
                                 {afterLoginPopupMenuOptions.map((loginMenuOption) => {
                                     const Icon = loginMenuOption.Icon;
                                     return (
@@ -115,14 +115,14 @@ const SecondNavbar = () => {
                                         </div>
                                     );
                                 })}
-                            </div>
-                            <hr />
-                            <div>
+                            </div>}
+                            {isLogin && <hr />}
+                            {isLogin && <div>
                                 <li><a href='/' className={style.logout_link} onClick={logoutHandler}>
                                     <span className={style.logout_icon}><FiLogOut /></span>
                                     <span>Logout</span>
                                 </a></li>
-                            </div>
+                            </div>}
                         </ul>
                     </div>
                 </div>

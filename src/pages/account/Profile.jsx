@@ -1,10 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import style from './profile.module.css';
 import { useAuth } from '../../context/AuthContext';
 
 const Profile = () => {
 
-  const { userDataFromJwtToken } = useAuth();
+  const navigate = useNavigate();
+  const { isLogin } = useAuth(); // userDataFromJwtToken
+
+  useEffect(() => {
+    if (!isLogin) {
+      navigate('/', { replace: true });
+    }
+  }, [isLogin, navigate]);
 
   return (
     <div>
@@ -13,12 +21,12 @@ const Profile = () => {
           <div className='section_heading'>
             <h1>Profile</h1>
           </div>
-          <div style={{display: 'flex'}}>
+          <div style={{ display: 'flex' }}>
             <div>first name</div>
             <div>:</div>
             {/* <div>{userDataFromJwtToken.firstName}</div> */}
           </div>
-          <button onClick={()=> window.location.href='/'}>click</button>
+          <button onClick={() => window.location.href = '/'}>click</button>
         </div>
       </div>
     </div>

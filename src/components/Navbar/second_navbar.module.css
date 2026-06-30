@@ -105,6 +105,13 @@
         width: 95%;
     }
 
+    .userName{
+        width: 6rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     /* logo */
     .container_for_logo_mobile_nav{
         display: flex;

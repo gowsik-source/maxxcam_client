@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import style from './register.module.css'
 import Axios from '../../API/Axios'
-import { toast, Bounce } from 'react-toastify'
+import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import { useAuth} from '../../context/AuthContext'
 
 // icons
 import { MdErrorOutline } from "react-icons/md"
@@ -24,21 +25,14 @@ const Register = () => {
   const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false); // to toggle password visibility
   const [isAcceptConditions, setIsAcceptConditions] = useState(false); // to store terms and conditions, privacy policy acceptance
   const [loading, setLoading] = useState(false); // to show loading state during API call
+  const {isLogin} = useAuth();
   const navigate = useNavigate();
 
-  // toastify configuration
-  const tostifySetup = {
-    position: "top-center",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: false,
-    pauseOnHover: false,
-    draggable: true,
-    progress: undefined,
-    theme: "colored",
-    transition: Bounce,
-    closeButton: false,
-  };
+  useEffect(() => {
+    if (isLogin) {
+      navigate('/', { replace: true });
+    }
+  }, [isLogin, navigate]);
 
   const validationHandler = (name, value) => {
     let localError = '';
@@ -160,7 +154,7 @@ const Register = () => {
       // console.log(response, 'response');
       const tryMessage = response.data.message;
       if (response.status === 201) {
-        toast.success(tryMessage, tostifySetup);
+        toast.success(tryMessage);
       }
       // navigate to login page after successful registration
       setTimeout(() => {
@@ -173,13 +167,13 @@ const Register = () => {
       const catchStatusCode = error.response.status;
 
       if (catchStatusCode === 400) {
-        toast.warning(catchMessage, tostifySetup);
+        toast.warning(catchMessage);
       }
       else if (catchStatusCode === 500) {
-        toast.error(catchMessage, tostifySetup);
+        toast.error(catchMessage);
       }
       else {
-        toast.error('Something went wrong. Please try again later.', tostifySetup);
+        toast.error('Something went wrong. Please try again later.');
       }
     } finally {
       setLoading(false);

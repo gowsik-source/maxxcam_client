@@ -81,6 +81,15 @@
     font-size: 1rem;
 }
 
+.userName{
+    width: 6rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.5rem;
+    text-align: start;
+}
+
 .cart_section {
     position: relative;
     display: flex;
@@ -108,9 +117,7 @@
 }
 
 .after_login_popup_menu_container {
-    min-height: fit-content;
-    max-height: 100vh;
-    overflow: auto;
+    height: fit-content;
     width: 15%;
     position: absolute;
     left: 75%;
@@ -120,6 +127,11 @@
     z-index: 1000;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
+}
+
+.after_login_popup_menu_container_large{
+    height: 50vh;
+    overflow: auto;
 }
 
 .after_login_popup_menu_option{

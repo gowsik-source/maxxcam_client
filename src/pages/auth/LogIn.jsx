@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import style from './login.module.css'
 import Axios from '../../API/Axios'
 import { Link } from 'react-router-dom'
 import { MdErrorOutline } from "react-icons/md"
-import { toast, Bounce } from 'react-toastify'
+import { toast } from 'react-toastify'
 import { useAuth } from '../../context/AuthContext'
 
 const LogIn = () => {
@@ -13,21 +14,14 @@ const LogIn = () => {
     const [isShowPassword, setIsShowPassword] = useState(false);
     const [isError, setIsError] = useState({});
     const [loading, setLoading] = useState(false);
-    const { loginHandler } = useAuth();
+    const { loginHandler, isLogin } = useAuth();
+    const navigate = useNavigate();
 
-    // toastify configuration
-    const tostifySetup = {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        transition: Bounce,
-        closeButton: false,
-    };
+    useEffect(() => {
+        if (isLogin) {
+            navigate('/', {replace: true});
+        }
+    }, [isLogin, navigate]);
 
     const formValidation = () => {
         const localError = {}
@@ -62,7 +56,7 @@ const LogIn = () => {
                 const tryMessage = response.data.message;
                 const jwtToken = response.data.token;
                 if (response.status === 200) {
-                    toast.success(tryMessage, tostifySetup);
+                    toast.success(tryMessage);
                     loginHandler(jwtToken); // call the login function from useAuth to Store the JWT token in localStorage & set the user data in the context
                 }
                 // navigate to login page after successful registration
@@ -75,19 +69,19 @@ const LogIn = () => {
                 const catchStatusCode = error.response.status;
 
                 if (catchStatusCode === 404) {
-                    toast.error(catchMessage, tostifySetup);
+                    toast.error(catchMessage);
                 }
                 else if (catchStatusCode === 400) {
-                    toast.warning(catchMessage, tostifySetup);
+                    toast.warning(catchMessage);
                 }
                 else if (catchStatusCode === 401) {
-                    toast.warning(catchMessage, tostifySetup);
+                    toast.warning(catchMessage);
                 }
                 else if (catchStatusCode === 500) {
-                    toast.error(catchMessage, tostifySetup);
+                    toast.error(catchMessage);
                 }
                 else {
-                    toast.error('Something went wrong. Please try again later.', tostifySetup);
+                    toast.error('Something went wrong. Please try again later.');
                 }
             } finally {
                 setLoading(false);

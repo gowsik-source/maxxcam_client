@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { toast } from 'react-toastify'
 import { CiUser } from "react-icons/ci";
 import { CiSettings } from "react-icons/ci";
 import { GoCodeOfConduct } from "react-icons/go";
@@ -54,7 +55,20 @@ export const AuthProvider = ({ children }) => {
                     setUserDataFromJwtToken(response.data);
                 }
             } catch (error) {
-                console.error(error ? error.message : 'An error occurred while fetching user data');
+                // console.error(error ? error.message : 'An error occurred while fetching user data');
+                const catchMessage = error.response.data.message;
+                const catchStatusCode = error.response.status;
+                if (catchStatusCode === 401) {
+                    toast.warning(catchMessage);
+                } else if (catchStatusCode === 403) {
+                    toast.warning(catchMessage);
+                } else if (catchStatusCode === 404) {
+                    toast.error(catchMessage);
+                } else if (catchStatusCode === 500) {
+                    toast.error(catchMessage);
+                } else {
+                    toast.error('Something went wrong.');
+                }
             }
         };
         fetchUserData();

@@ -85,10 +85,10 @@ const FirstNavbar = () => {
                                     :
                                     <button className={`default_btn ${style.login}`} onClick={loginButtonHandler}>
                                         <span className={style.login_icon}><FaUserCircle /></span>
-                                        <span className={style.login_text}>{userDataFromJwtToken ? userDataFromJwtToken?.firstName : 'Login'}</span>
+                                        <span className={userDataFromJwtToken?.firstName.length > 6 ? style.userName : style.login_text}>{userDataFromJwtToken ? userDataFromJwtToken?.firstName : 'Login'}</span>
                                     </button>}
 
-                                {isLoginMenuOpen && <div className={style.after_login_popup_menu_container}>
+                                {isLoginMenuOpen && <div className={`${style.after_login_popup_menu_container} ${afterLoginPopupMenuOptions.length > 10 ? style.after_login_popup_menu_container_large : ''}`}>
                                     {afterLoginPopupMenuOptions.map((loginMenuOption) => {
                                         const Icon = loginMenuOption.Icon;
                                         return (
