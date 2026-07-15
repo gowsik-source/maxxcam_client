@@ -60,3 +60,13 @@ a{
 .default_input_style:focus{
     background-color: rgba(235, 232, 232, 0.21);
 }
+
+/* toastify */
+@media only screen and (max-width: 480px) {
+
+    .Toastify__toast-container {
+        width: 90vw !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+}

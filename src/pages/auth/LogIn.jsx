@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Navigate } from 'react-router-dom'
 import style from './login.module.css'
 import Axios from '../../API/Axios'
 import { Link } from 'react-router-dom'
@@ -14,14 +14,11 @@ const LogIn = () => {
     const [isShowPassword, setIsShowPassword] = useState(false);
     const [isError, setIsError] = useState({});
     const [loading, setLoading] = useState(false);
-    const { loginHandler, isLogin } = useAuth();
-    const navigate = useNavigate();
+    const { loginHandler, isAuthenticated } = useAuth();
 
-    useEffect(() => {
-        if (isLogin) {
-            navigate('/', {replace: true});
-        }
-    }, [isLogin, navigate]);
+    if (isAuthenticated()) {
+        return <Navigate to="/" replace />;
+    }
 
     const formValidation = () => {
         const localError = {}

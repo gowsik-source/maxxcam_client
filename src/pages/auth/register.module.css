@@ -129,15 +129,3 @@ input::placeholder {
 .register_button{
     margin-top: 0.5rem;
 }
-
-/* toastify */
-@media only screen and (max-width: 480px) {
-
-    :global(.Toastify__toast-container) {
-
-        width: 90vw !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-    }
-
-}

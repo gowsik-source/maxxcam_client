@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'
 import { CiUser } from "react-icons/ci";
 import { CiSettings } from "react-icons/ci";
@@ -38,13 +39,21 @@ export const AuthProvider = ({ children }) => {
         }
     ];
 
-    const [isLogin, setIsLogin] = useState(false);
+    const navigate = useNavigate();
     const [userDataFromJwtToken, setUserDataFromJwtToken] = useState(null);
+    const [authIsLoading, setAuthIsLoading] = useState(false);
+
+    // logout function
+    const logoutHandler = () => {
+        localStorage.removeItem("token");
+        setUserDataFromJwtToken(null);
+    };
 
     // send jwt token to backend and get user data if token is valid
     useEffect(() => {
         const fetchUserData = async () => {
             try {
+                setAuthIsLoading(true);
                 const tokenfromLocalStorage = localStorage.getItem('token');
                 if (tokenfromLocalStorage) {
                     const response = await Axios.get('/api/user/me', {
@@ -58,7 +67,17 @@ export const AuthProvider = ({ children }) => {
                 // console.error(error ? error.message : 'An error occurred while fetching user data');
                 const catchMessage = error.response.data.message;
                 const catchStatusCode = error.response.status;
-                if (catchStatusCode === 401) {
+                if (catchStatusCode === 401 && catchMessage === "Token expired, please login again") {
+                    toast.warning(
+                        <>
+                            Session expired.
+                            <br />
+                            Please login again.
+                        </>
+                    );
+                    logoutHandler(); // calling logout function
+                    navigate('/login', { replace: true }); // navigate to login page
+                } else if (catchStatusCode === 401) {
                     toast.warning(catchMessage);
                 } else if (catchStatusCode === 403) {
                     toast.warning(catchMessage);
@@ -69,28 +88,22 @@ export const AuthProvider = ({ children }) => {
                 } else {
                     toast.error('Something went wrong.');
                 }
+            } finally {
+                setAuthIsLoading(false);
             }
         };
         fetchUserData();
-    }, [setUserDataFromJwtToken]);
+    }, [setUserDataFromJwtToken, navigate]);
 
     // check if user is logged in or not
-    useEffect(() => {
-        if (Object.keys(userDataFromJwtToken || {}).length > 0) {
-            setIsLogin(true);
-        } else {
-            setIsLogin(false);
-        }
-    }, [userDataFromJwtToken]);
+    const isAuthenticated = () => {
+        // return Object.keys(userDataFromJwtToken || {}).length > 0 ? true : false;
+        return localStorage.getItem('token') ? true : false;
+    }
 
     // login function
     const loginHandler = (token) => {
         localStorage.setItem("token", token);
-    };
-
-    const logoutHandler = () => {
-        localStorage.removeItem("token");
-        setUserDataFromJwtToken(null);
     };
 
     return (
@@ -98,11 +111,11 @@ export const AuthProvider = ({ children }) => {
             value={{
                 afterLoginPopupMenuOptions,
                 // useSates
-                isLogin,
-                setIsLogin,
                 userDataFromJwtToken,
                 setUserDataFromJwtToken,
+                authIsLoading,
                 // functions
+                isAuthenticated,
                 loginHandler,
                 logoutHandler
             }}>

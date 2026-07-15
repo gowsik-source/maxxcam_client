@@ -14,7 +14,7 @@ import { FiLogOut } from "react-icons/fi";
 const FirstNavbar = () => {
     // useContexts
     const { openCart, cartItems, isCartOpen } = useCart();
-    const { afterLoginPopupMenuOptions, userDataFromJwtToken, isLogin, logoutHandler } = useAuth();
+    const { isAuthenticated, afterLoginPopupMenuOptions, userDataFromJwtToken, logoutHandler } = useAuth();
     // useStates
     const navigate = useNavigate();
     const [isLoginMenuOpen, setIsLoginMenuOpen] = useState(false);
@@ -36,7 +36,7 @@ const FirstNavbar = () => {
     }, []);
 
     const loginButtonHandler = () => {
-        if (isLogin) {
+        if (isAuthenticated()) {
             setIsLoginMenuOpen(prev => !prev);
         } else {
             // navigate to login page
@@ -77,7 +77,7 @@ const FirstNavbar = () => {
                         <div className={style.icon_container}>
                             {/* login Or user menu */}
                             <div className={style.login_section} ref={loginMenuRef}>
-                                {!isLogin ?
+                                {isAuthenticated() === false ?
                                     <Link to={'/login'} className={style.login_link}>
                                         <span className={style.login_icon}><FaUserCircle /></span>
                                         <span className={style.login_text}>Login</span>

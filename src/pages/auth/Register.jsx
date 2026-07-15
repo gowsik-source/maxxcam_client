@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import style from './register.module.css'
 import Axios from '../../API/Axios'
 import { toast } from 'react-toastify'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuth} from '../../context/AuthContext'
 
 // icons
@@ -25,14 +25,12 @@ const Register = () => {
   const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false); // to toggle password visibility
   const [isAcceptConditions, setIsAcceptConditions] = useState(false); // to store terms and conditions, privacy policy acceptance
   const [loading, setLoading] = useState(false); // to show loading state during API call
-  const {isLogin} = useAuth();
+  const {isAuthenticated} = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (isLogin) {
-      navigate('/', { replace: true });
-    }
-  }, [isLogin, navigate]);
+  if (isAuthenticated()) {
+    return <Navigate to="/" replace />;
+  }
 
   const validationHandler = (name, value) => {
     let localError = '';

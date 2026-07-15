@@ -10,7 +10,7 @@ import { FiLogOut } from "react-icons/fi";
 
 const SecondNavbar = () => {
 
-    const { afterLoginPopupMenuOptions, isLogin, userDataFromJwtToken, logoutHandler } = useAuth();
+    const { afterLoginPopupMenuOptions, isAuthenticated, userDataFromJwtToken, logoutHandler } = useAuth();
 
     // const navigate = useNavigate();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -26,7 +26,7 @@ const SecondNavbar = () => {
     }
 
     // const loginButtonHandler = () => {
-    //     if (!isLogin) {
+    //     if (isAuthenticated() === false) {
     //         navigate('/login')
     //     }
     // };
@@ -64,9 +64,9 @@ const SecondNavbar = () => {
                         {/* mobile nav login */}
                         <div className={style.mobile_nav_login_section}>
                             {/* {!isLogin ? */}
-                                <Link to={isLogin ? '/profile' : '/login'} className={style.login_link} onClick={hideMobileNavBarHandler}>
+                                <Link to={isAuthenticated() ? '/profile' : '/login'} className={style.login_link} onClick={hideMobileNavBarHandler}>
                                     <span className={style.login_icon}><FaUserCircle /></span>
-                                    <span className={userDataFromJwtToken?.firstName ? style.userName : style.login_text}>{isLogin ? userDataFromJwtToken?.firstName : 'Login'}</span>
+                                    <span className={userDataFromJwtToken?.firstName ? style.userName : style.login_text}>{isAuthenticated() ? userDataFromJwtToken?.firstName : 'Login'}</span>
                                 </Link>
                                  {/* :
                                  <button className={`default_btn ${style.login}`} onClick={loginButtonHandler}>
@@ -102,8 +102,8 @@ const SecondNavbar = () => {
                             <li><NavLink to="/shop" className={({ isActive }) => (isActive ? style.mobile_nav_active : style.mobile_nav_inactive)} onClick={hideMobileNavBarHandler}>Shop</NavLink></li>
                             <li><NavLink to="/faq" className={({ isActive }) => (isActive ? style.mobile_nav_active : style.mobile_nav_inactive)} onClick={hideMobileNavBarHandler}>Faq</NavLink></li>
                             <li><NavLink to="/contact" className={({ isActive }) => (isActive ? style.mobile_nav_active : style.mobile_nav_inactive)} onClick={hideMobileNavBarHandler}>Contact</NavLink></li>
-                            {isLogin && <hr />}
-                            {isLogin && <div className={style.after_login_popup_menu_container}>
+                            {isAuthenticated() && <hr />}
+                            {isAuthenticated() && <div className={style.after_login_popup_menu_container}>
                                 {afterLoginPopupMenuOptions.map((loginMenuOption) => {
                                     const Icon = loginMenuOption.Icon;
                                     return (
@@ -116,8 +116,8 @@ const SecondNavbar = () => {
                                     );
                                 })}
                             </div>}
-                            {isLogin && <hr />}
-                            {isLogin && <div>
+                            {isAuthenticated() && <hr />}
+                            {isAuthenticated() && <div>
                                 <li><a href='/' className={style.logout_link} onClick={logoutHandler}>
                                     <span className={style.logout_icon}><FiLogOut /></span>
                                     <span>Logout</span>

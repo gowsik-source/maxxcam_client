@@ -5,9 +5,94 @@
 }
 
 .display {
-    border: 2px solid red;
+    border: 1px solid rgb(178, 178, 178);
+    border-radius: 10px;
+    padding: 1rem;
     width: 90%;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.profile_details_display {
+    width: 100%;
+}
+
+.field_name,
+.field_value{
+    width: 49%;
+}
+
+.divider_colen{
+    width: 2%;
+}
+
+.profile_field {
+    margin-top: 1rem;
+    display: flex;
+    gap: 3rem;
+}
+
+.edit_profile_button{
+    margin-top: 1rem;
+    width: 40%;
+}
+
+.edit_profile_button button{
+    width: 100%;
+    height: 2.1rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: 1px solid var(--secondary-color);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.edit_profile_button button:hover{
+    background-color: white;
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+.loading_container {
+    width: 100%;
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.divider_colen_mobile_responsive,
+.profile_field_divider_line,
+.profile_field_divider_line_hidden{
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .field_name{
+        width: 100%;
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .field_value{
+        width: 100%;
+        padding: 5px 0 5px clamp(0.4rem, 1vw, 1rem);
+    }
+
+    .profile_field{
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .divider_colen,
+    .profile_field_divider_line_hidden {
+        display: none;
+    }
+
+    .divider_colen_mobile_responsive,
+    .profile_field_divider_line{
+        display: block;
+    }
 }

@@ -13,7 +13,11 @@ const AlwaysScrollToTop = () => {
             "/view_cart",
             "/login",
             "/forgot_password",
-            "/register"
+            "/register",
+            "/profile",
+            "/profile/edit",
+            "/terms_conditions",
+            "/privacy_policy"
         ];
         
         const productRoutePaths = pathname.startsWith("/product/") || pathname.startsWith("/category/");
