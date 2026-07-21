@@ -71,17 +71,23 @@ const Register = () => {
     }
     // password validation
     if (name === 'password') {
-      if (value.length < 8) {
-        localError = "Minimum 8 characters.";
+      if (!value.trim()) {
+        localError = "Enter a password.";
       }
       else if (!/[A-Z]/.test(value)) {
         localError = "At least one uppercase letter.";
       }
+      else if (!/[a-z]/.test(value)) {
+        localError = "At least one lowercase letter.";
+      }
       else if (!/[0-9]/.test(value)) {
         localError = "At least one number.";
       }
-      else if (!value.trim()) {
-        localError = "Enter a password.";
+      else if (!/[!@#$%^&*(),.?":{}|<>_+=/\\[\]~`'-]/.test(value)) {
+        localError = "At least one special charecter.";
+      }
+      else if (value.length < 8) {
+        localError = "Minimum 8 characters.";
       }
     }
     // Confirm password validation

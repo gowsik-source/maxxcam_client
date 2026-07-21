@@ -16,6 +16,7 @@ const AlwaysScrollToTop = () => {
             "/register",
             "/profile",
             "/profile/edit",
+            "/profile/edit/change_password",
             "/terms_conditions",
             "/privacy_policy"
         ];

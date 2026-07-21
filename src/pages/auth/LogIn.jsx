@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate, Link } from 'react-router-dom'
 import style from './login.module.css'
 import Axios from '../../API/Axios'
-import { Link } from 'react-router-dom'
 import { MdErrorOutline } from "react-icons/md"
 import { toast } from 'react-toastify'
 import { useAuth } from '../../context/AuthContext'
@@ -15,6 +14,7 @@ const LogIn = () => {
     const [isError, setIsError] = useState({});
     const [loading, setLoading] = useState(false);
     const { loginHandler, isAuthenticated } = useAuth();
+    const navigate = useNavigate();
 
     if (isAuthenticated()) {
         return <Navigate to="/" replace />;
@@ -56,10 +56,7 @@ const LogIn = () => {
                     toast.success(tryMessage);
                     loginHandler(jwtToken); // call the login function from useAuth to Store the JWT token in localStorage & set the user data in the context
                 }
-                // navigate to login page after successful registration
-                setTimeout(() => {
-                    window.location.href = '/';
-                }, 4000);
+                navigate('/');
             } catch (error) {
                 // console.log(error ? error.message : 'Something went wrong');
                 const catchMessage = error.response.data.message;

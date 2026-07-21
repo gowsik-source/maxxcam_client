@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate, Link } from 'react-router-dom'
 import style from './edit_profile.module.css'
 import { useAuth } from '../../context/AuthContext';
 import Axios from '../../API/Axios';
@@ -228,6 +228,9 @@ const EditProfile = () => {
                 </div>}
               </div>
             </div>
+          </div>}
+          {!authIsLoading && <div className={style.change_password}>
+            <Link to='/profile/edit/change_password'>Change Password ?</Link>
           </div>}
           {!authIsLoading && <div className={style.action_buttons}>
             <div className={style.cancel_button}>

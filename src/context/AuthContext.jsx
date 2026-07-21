@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'
 import { CiUser } from "react-icons/ci";
-import { CiSettings } from "react-icons/ci";
+// import { CiSettings } from "react-icons/ci";
 import { GoCodeOfConduct } from "react-icons/go";
 import { MdOutlinePrivacyTip } from "react-icons/md";
 // import { IoIosHelpCircleOutline } from "react-icons/io"; // IoIosHelpCircleOutline
@@ -19,12 +19,12 @@ export const AuthProvider = ({ children }) => {
             Icon: CiUser,
             path: '/profile'
         },
-        {
-            id: 2,
-            optionName: 'Settings',
-            Icon: CiSettings,
-            path: '/settings'
-        },
+        // {
+        //     id: 2,
+        //     optionName: 'Settings',
+        //     Icon: CiSettings,
+        //     path: '/settings'
+        // },
         {
             id: 3,
             optionName: 'Terms Conditions',
