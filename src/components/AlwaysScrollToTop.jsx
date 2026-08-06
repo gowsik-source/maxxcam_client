@@ -14,14 +14,11 @@ const AlwaysScrollToTop = () => {
             "/login",
             "/forgot_password",
             "/register",
-            "/profile",
-            "/profile/edit",
-            "/profile/edit/change_password",
             "/terms_conditions",
             "/privacy_policy"
         ];
         
-        const productRoutePaths = pathname.startsWith("/product/") || pathname.startsWith("/category/");
+        const productRoutePaths = pathname.startsWith("/product/") || pathname.startsWith("/category/") || pathname.startsWith("/profile/");
 
         if (includePaths.includes(pathname) || productRoutePaths) {
             window.scrollTo(0, 0);

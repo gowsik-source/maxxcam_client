@@ -1,12 +1,17 @@
-import React, { useState } from 'react'
-import style from './forgot_password.module.css'
-import { MdErrorOutline } from "react-icons/md"
-import axios from 'axios'
+import React, { useState } from 'react';
+import style from './forgot_password.module.css';
+import { MdErrorOutline } from "react-icons/md";
+import Axios from '../../API/Axios';
+import ForgotPasswordMailSendedPopup from '../../components/ForgotPasswordMailSendedPopup';
+import { toast } from 'react-toastify';
 
 const ForgotPassword = () => {
 
-    const [isEmail, setIsEmail] = useState('')
-    const [isError, setIsError] = useState({})
+    const [isEmail, setIsEmail] = useState('');
+    const [isError, setIsError] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
+    const [isMailSended, setIsMailSended] = useState(false);
+    const [isSuccessMessage, setIsSuccessMessage] = useState('');
 
     const fieldValidation = () => {
         const localError = {}
@@ -16,8 +21,8 @@ const ForgotPassword = () => {
         if (!/\S+@\S+\.\S+/.test(isEmail)) {
             localError.email = "Enter an email address like example@gmail.com"
         }
-        setIsError(localError)
-        return Object.keys(localError).length === 0
+        setIsError(localError);
+        return Object.keys(localError).length === 0;
     }
 
     const continueAction = async (event) => {
@@ -25,10 +30,30 @@ const ForgotPassword = () => {
 
         if (fieldValidation()) {
             try {
-                let response = await axios.put('https://jsonplaceholder.typicode.com/posts/1', { isEmail })
-                console.log(response);
+                setIsLoading(true);
+                let payLoad = {
+                    email: isEmail
+                }
+                let response = await Axios.post('/api/user/me/edit/forgot-password', payLoad)
+                if (response.status === 200) {
+                    setIsMailSended(true);
+                    setIsSuccessMessage(response.data.message);
+                }
             } catch (error) {
-                console.log("Error in sending reset password email: ", error);
+                // console.log("Error in sending reset password email: ", error);
+                const catchMessage = error.response.data.message;
+                const catchStatusCode = error.response.status;
+                if (catchStatusCode === 400) {
+                    toast.warning(catchMessage);
+                }
+                else if (catchStatusCode === 500) {
+                    toast.error(catchMessage);
+                }
+                else {
+                    toast.error('Something went wrong. Please try again later.');
+                }
+            } finally {
+                setIsLoading(false);
             }
         }
     }
@@ -42,7 +67,7 @@ const ForgotPassword = () => {
                     </div>
                     <form onSubmit={continueAction}>
                         <div className={style.input_field}>
-                            <input type="email" className={`default_input_style ${isError.email ? style.input_validation_error : ''}`} placeholder='Enter the email *' value={isEmail} onChange={(e) => setIsEmail(e.target.value)} autoFocus/>
+                            <input type="email" className={`default_input_style ${isError.email ? style.input_validation_error : ''}`} placeholder='Enter the email *' value={isEmail} onChange={(e) => setIsEmail(e.target.value)} autoFocus />
                         </div>
                         {isError.email && <div className={style.error_message_container}>
                             <div className={style.error_icon}>
@@ -53,11 +78,12 @@ const ForgotPassword = () => {
                             </div>
                         </div>}
                         <div className={style.input_field_button}>
-                            <button type='submit' className={style.continue_btn}>Continue</button>
+                            <button type='submit' className={isLoading ? style.continue_btn_disabled : style.continue_btn}>{isLoading ? 'Continue ...' : 'Continue'}</button>
                         </div>
                     </form>
                 </div>
             </div>
+            {isMailSended && <ForgotPasswordMailSendedPopup successMessage={isSuccessMessage} loading={isLoading} resend={continueAction} />}
         </div>
     )
 }
