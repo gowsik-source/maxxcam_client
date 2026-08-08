@@ -11,7 +11,7 @@ const ForgotPassword = () => {
     const [isError, setIsError] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [isMailSended, setIsMailSended] = useState(false);
-    const [isSuccessMessage, setIsSuccessMessage] = useState('');
+    const [isMailErrorMessage, setIsMailErrorMessage] = useState('');
 
     const fieldValidation = () => {
         const localError = {}
@@ -31,20 +31,24 @@ const ForgotPassword = () => {
         if (fieldValidation()) {
             try {
                 setIsLoading(true);
+                setIsMailErrorMessage('');
                 let payLoad = {
                     email: isEmail
                 }
                 let response = await Axios.post('/api/user/me/edit/forgot-password', payLoad)
+                console.log('response',response)
                 if (response.status === 200) {
                     setIsMailSended(true);
-                    setIsSuccessMessage(response.data.message);
                 }
             } catch (error) {
-                // console.log("Error in sending reset password email: ", error);
+                console.log("Error in sending reset password email: ", error);
                 const catchMessage = error.response.data.message;
                 const catchStatusCode = error.response.status;
                 if (catchStatusCode === 400) {
                     toast.warning(catchMessage);
+                }
+                else if (catchStatusCode === 403) {
+                    setIsMailErrorMessage(catchMessage);
                 }
                 else if (catchStatusCode === 500) {
                     toast.error(catchMessage);
@@ -77,13 +81,16 @@ const ForgotPassword = () => {
                                 <p>{isError.email}</p>
                             </div>
                         </div>}
+                        {isMailErrorMessage && <div className={style.mail_error_message}>
+                        <p><span className={style.error_icon}><MdErrorOutline /></span>{isMailErrorMessage}</p>
+                        </div>}
                         <div className={style.input_field_button}>
                             <button type='submit' className={isLoading ? style.continue_btn_disabled : style.continue_btn}>{isLoading ? 'Continue ...' : 'Continue'}</button>
                         </div>
                     </form>
                 </div>
             </div>
-            {isMailSended && <ForgotPasswordMailSendedPopup successMessage={isSuccessMessage} loading={isLoading} resend={continueAction} />}
+            {isMailSended && <ForgotPasswordMailSendedPopup email={isEmail} isPopupOpen={isMailSended} />}
         </div>
     )
 }
