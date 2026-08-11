@@ -8,12 +8,12 @@ import Axios from '../API/Axios';
 const ForgotPasswordMailSendedPopup = ({ email, isPopupOpen }) => {
 
   useEffect(() => {
-      isPopupOpen ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'auto';
-      
-      return () => {
-        document.body.style.overflow = "auto";
-      };
-    }, [isPopupOpen]);
+    isPopupOpen ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'auto';
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isPopupOpen]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isMailErrorMessage, setIsMailErrorMessage] = useState('');
@@ -70,7 +70,12 @@ const ForgotPasswordMailSendedPopup = ({ email, isPopupOpen }) => {
             <button className={isLoading ? style.resend_btn_disabled : style.resend_btn} disabled={isLoading} onClick={resendAction}>Resend</button>
           </div>
           {isMailErrorMessage && <div className={style.mail_error_message}>
-            <p><span className={style.error_icon}><MdErrorOutline /></span>{isMailErrorMessage}</p>
+            <p>
+              <span className={style.error_icon}>
+                <MdErrorOutline />
+              </span>
+              {isMailErrorMessage}
+            </p>
           </div>}
         </div>
       </div>
