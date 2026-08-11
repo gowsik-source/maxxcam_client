@@ -72,7 +72,7 @@ const ResetPassword = () => {
                         <div className={style.password_input}>
                             <input type={isShowNewPassword ? "text" : "password"} className={`default_input_style ${isError.newPassword ? style.input_validation_error : ''}`} placeholder='New Password *' value={isNewPassword} onChange={(e) => setIsNewPassword(e.target.value)} />
                         </div>
-                        <div>
+                        <div className={style.password_hint}>
                             <small>New password must contain at least one uppercase, one lowercase, one number, one special character and at least 8 characters</small>
                         </div>
                         <div className={style.password_checkbox_label_display}>
